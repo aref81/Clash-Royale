@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="680.0" prefWidth="980.0" styleClass="parent" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartPageController">
+   <children>
+      <Pane layoutX="2.0" layoutY="140.0" prefHeight="360.0" prefWidth="980.0" styleClass="pane">
+         <children>
+            <Label depthTest="ENABLE" layoutX="14.0" layoutY="60.0" prefHeight="64.0" prefWidth="377.0" style="-fx-faint-focus-color: black;" text="Don't Have An Account ?" textAlignment="CENTER">
+               <font>
+                  <Font name="Supercell-Magic Regular" size="21.0" />
+               </font>
+            </Label>
+            <Label depthTest="ENABLE" layoutX="15.0" layoutY="76.0" style="-fx-faint-focus-color: black;" text="Don't Have An Account ?" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Supercell-Magic Regular" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="130.0" text="Sign Up For Free!" textAlignment="CENTER">
+               <font>
+                  <Font name="Supercell-Magic Regular" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="31.0" layoutY="131.0" text="Sign Up For Free!" textAlignment="CENTER">
+               <font>
+                  <Font name="Supercell-Magic Regular" size="16.0" />
+               </font>
+               <textFill>
+                  <RadialGradient centerX="0.44999999999999996" centerY="0.49047619047619045" focusAngle="7.43" focusDistance="0.11627906976744184" radius="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.007662835249042145">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </textFill>
+            </Label>
+            <Button layoutX="31.0" layoutY="203.0" mnemonicParsing="false" onAction="#openSignUp" prefHeight="26.0" prefWidth="119.0" styleClass="trans-btn-white-boarder" text="Sign Up" textFill="WHITE">
+               <font>
+                  <Font name="Supercell-Magic Regular" size="17.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="169.0" layoutY="159.0">
+               <image>
+                  <Image url="@clashroyal.png" />
+               </image>
+            </ImageView>
+            <Label depthTest="ENABLE" layoutX="677.0" layoutY="60.0" prefHeight="64.0" prefWidth="377.0" style="-fx-faint-focus-color: black;" text="Already Signed Up?" textAlignment="CENTER">
+               <font>
+                  <Font name="Supercell-Magic Regular" size="21.0" />
+               </font>
+            </Label>
+            <Label depthTest="ENABLE" layoutX="678.0" layoutY="76.0" style="-fx-faint-focus-color: black;" text="Already Signed Up?" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Supercell-Magic Regular" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="762.0" layoutY="130.0" text="Log in Brother!" textAlignment="CENTER">
+               <font>
+                  <Font name="Supercell-Magic Regular" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="778.0" layoutY="131.0" text="Log in Brother!" textAlignment="CENTER">
+               <font>
+                  <Font name="Supercell-Magic Regular" size="16.0" />
+               </font>
+               <textFill>
+                  <RadialGradient centerX="0.44999999999999996" centerY="0.49047619047619045" focusAngle="7.43" focusDistance="0.11627906976744184" radius="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.007662835249042145">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </textFill>
+            </Label>
+            <Button layoutX="847.0" layoutY="203.0" mnemonicParsing="false" onAction="#openSignIn" prefHeight="26.0" prefWidth="119.0" styleClass="trans-btn-white-boarder" text="Log In" textFill="WHITE">
+               <font>
+                  <Font name="Supercell-Magic Regular" size="17.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="200.0" fitWidth="171.0" layoutX="639.0" layoutY="159.0">
+               <image>
+                  <Image url="@toppng.com-clashroyale-crown-logo-de-clash-royale-1022x1193.png" />
+               </image>
+            </ImageView>
+            <VBox id="vbox" fx:id="vbox" layoutX="10.0" layoutY="-60.0" prefHeight="480.0" prefWidth="480.0" styleClass="white-pane" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
