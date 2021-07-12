@@ -1,5 +1,6 @@
+import Classes.GameMenu;
+import Classes.User;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -7,6 +8,18 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * Clash Royal Game
+ * Main Class
+ * sets the start of application
+ *
+ * Amir Kabir University of technology
+ * summer 2021
+ *
+ * @author Mohammad Hosein Aref
+ * @version 1.0
+ *
+ */
 public class Main extends Application {
 
     @Override
@@ -15,7 +28,7 @@ public class Main extends Application {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.setFill(Color.TRANSPARENT);
-        primaryStage.setTitle("Clash Royal");
+        primaryStage.setTitle("Clash Royal Login");
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
@@ -24,5 +37,9 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static void startGame (User user) {
+        GameMenu gameMenu = new GameMenu(user);
     }
 }

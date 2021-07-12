@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class User implements Serializable {
     private String userName;
     private String Password;
+    private String points;
 
     public User(String userName, String password) {
         this.userName = userName;
