@@ -51,10 +51,10 @@ public class SignInController {
             if (file.exists()){
                 try (Scanner in = new Scanner(new FileInputStream(file))) {
                     while (in.hasNextLine()) {
-                        User user= new User(in.nextLine(),in.nextLine());
+                        User user= new User(in.nextLine(),in.nextLine(),in.nextLine());
                         if (user.getUserName().equals(UserName.getText()) && Password.getText().equals(user.getPassword())) {
-                            ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-                            Main.startGame(user);
+                            Stage current = ((Stage)(((Button)event.getSource()).getScene().getWindow()));
+                            Main.startGame(user,current);
                             found = true;
                             break;
                         }

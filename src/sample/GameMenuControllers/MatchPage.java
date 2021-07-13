@@ -1,4 +1,12 @@
 package sample.GameMenuControllers;
 
-public class MatchPage {
+import Classes.User;
+
+public class MatchPage implements GameMenController{
+    private User user;
+
+    @Override
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

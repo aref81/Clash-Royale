@@ -54,7 +54,7 @@ public class SignUpController {
                 if (file.exists()) {
                     try (Scanner in = new Scanner(new FileInputStream(file))) {
                         while (in.hasNextLine()) {
-                            User user = new User(in.nextLine(),in.nextLine());
+                            User user = new User(in.nextLine(),in.nextLine(),in.nextLine());
                             if (user.getUserName().equals(UserName.getText())) {
                                 clearAll();
                                 UserName.setText("This user name is already in use!");
@@ -69,11 +69,12 @@ public class SignUpController {
                 }
                 if (!found) {
                     try (PrintWriter out = new PrintWriter(new FileOutputStream(file,true))){
-                        User user = new User(UserName.getText(),Password.getText());
+                        User user = new User(UserName.getText(),Password.getText(),"0");
                         out.println(user.getUserName());
                         out.println(user.getPassword());
-                        ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-                        Main.startGame(user);
+                        out.println(user.getPoints());
+                        Stage current = ((Stage)(((Button)event.getSource()).getScene().getWindow()));
+                        Main.startGame(user,current);
                     }
                 }
             } else {

@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     private String userName;
-    private String Password;
+    private String password;
     private String points;
 
-    public User(String userName, String password) {
+    public User(String userName, String password , String points) {
         this.userName = userName;
-        Password = password;
+        this.password = password;
+        this.points = points;
     }
 
     public String getUserName() {
@@ -17,6 +18,18 @@ public class User implements Serializable {
     }
 
     public String getPassword() {
-        return Password;
+        return password;
+    }
+
+    public String getPoints() {
+        return points;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPoints(String points) {
+        this.points = points;
     }
 }

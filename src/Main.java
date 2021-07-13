@@ -39,7 +39,8 @@ public class Main extends Application {
         launch(args);
     }
 
-    public static void startGame (User user) {
-        GameMenu gameMenu = new GameMenu(user);
+    public static void startGame (User user,Stage stage) {
+        GameMenu gameMenu = new GameMenu(stage,user);
+        gameMenu.run();
     }
 }
