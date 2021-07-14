@@ -34,11 +34,22 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * launches the application
+     *
+     * @param args args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * starts the game menu
+     * changes the scene from login page to menu page
+     *
+     * @param user the logged in user
+     * @param stage the primary stage of application
+     */
     public static void startGame (User user,Stage stage) {
         GameMenu gameMenu = new GameMenu(stage,user);
         gameMenu.run();

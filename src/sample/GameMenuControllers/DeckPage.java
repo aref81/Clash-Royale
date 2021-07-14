@@ -7,11 +7,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * controller class for deck page in main menu
+ * contain methods and fields for corresponding fxml
+ *
+ * @author Mohammad hosein Aref
+ * @version 1.0
+ */
 
 public class DeckPage implements GameMenController, Initializable {
 
@@ -19,11 +25,22 @@ public class DeckPage implements GameMenController, Initializable {
     private ArrayList<ImageView> deckPics;
     private ArrayList<ImageView> deck;
 
+    /**
+     * sets user field
+     *
+     * @param user  the logged in user
+     */
     @Override
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * initializes the scene
+     *
+     * @param url url
+     * @param resourceBundle resource Bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         deck = new ArrayList<>();
@@ -38,6 +55,12 @@ public class DeckPage implements GameMenController, Initializable {
         deckPics.add(d8);
     }
 
+    /**
+     * adds selected card to deck
+     *
+     *
+     * @param image the imageView Field of card
+     */
     private void addCard (ImageView image) {
         if (deck.size() < 8) {
             deck.add(image);
@@ -45,11 +68,21 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * removes selected card from deck
+     *
+     * @param image the imageView Field of card
+     */
     private void removeCard (ImageView image) {
         deck.remove(image);
         updateDeck();
     }
 
+    /**
+     * updates the deck view
+     * after adding or removing cards
+     *
+     */
     private void updateDeck () {
         int i = 0;
         for (ImageView imageView : deck){
@@ -127,6 +160,13 @@ public class DeckPage implements GameMenController, Initializable {
     @FXML
     private ImageView inferno;
 
+    /**
+     * performs action on archer key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "archer key"
+     */
     @FXML
     void archer(ActionEvent event) {
         if (deck.contains(archer)){
@@ -137,6 +177,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on arrows key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "arrows key"
+     */
     @FXML
     void arrows(ActionEvent event) {
         if (deck.contains(arrows)){
@@ -147,6 +194,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on baby D key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "baby D key"
+     */
     @FXML
     void babyD(ActionEvent event) {
         if (deck.contains(babyD)){
@@ -157,6 +211,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on barbarian key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "barbarian key"
+     */
     @FXML
     void barbarian(ActionEvent event) {
         if (deck.contains(barbarian)){
@@ -167,6 +228,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on cannon key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "cannon key"
+     */
     @FXML
     void cannon(ActionEvent event) {
         if (deck.contains(cannon)){
@@ -177,6 +245,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on fireBall key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "fireBall key"
+     */
     @FXML
     void fireBall(ActionEvent event) {
         if (deck.contains(fireBall)){
@@ -187,6 +262,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on giant key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "giant key"
+     */
     @FXML
     void giant(ActionEvent event) {
         if (deck.contains(giant)){
@@ -197,6 +279,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on inferno key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "inferno key"
+     */
     @FXML
     void inferno(ActionEvent event) {
         if (deck.contains(inferno)){
@@ -207,6 +296,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on peka key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "peka key"
+     */
     @FXML
     void peka(ActionEvent event) {
         if (deck.contains(peka)){
@@ -217,6 +313,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on rage key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "rage key"
+     */
     @FXML
     void rage(ActionEvent event) {
         if (deck.contains(rage)){
@@ -227,6 +330,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on val key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "val key"
+     */
     @FXML
     void val(ActionEvent event) {
         if (deck.contains(val)){
@@ -237,6 +347,13 @@ public class DeckPage implements GameMenController, Initializable {
         }
     }
 
+    /**
+     * performs action on wizard key
+     * adds if its not added
+     * removes if its added
+     *
+     * @param event the "wizard key"
+     */
     @FXML
     void wizard(ActionEvent event) {
         if (deck.contains(wizard)){
