@@ -2,6 +2,7 @@ package Classes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Implements a User in the game
@@ -92,6 +93,16 @@ public class User implements Serializable {
      */
     public void setDeck(ArrayList<Card> deck) {
         this.deck = deck;
+    }
+
+    public Card getRandomCard (Card c1, Card c2, Card c3,Card c4) {
+        Random random = new Random();
+        while (true){
+            Card card = deck.get(random.nextInt(8));
+            if (!(card == c1 || card == c2 || card == c3 || card == c4)){
+                return card;
+            }
+        }
     }
 
 }
