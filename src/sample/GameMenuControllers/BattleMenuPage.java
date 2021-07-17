@@ -1,8 +1,12 @@
 package sample.GameMenuControllers;
 
+import Classes.GameMenu;
 import Classes.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+
 import javax.swing.*;
 
 /**
@@ -12,7 +16,7 @@ import javax.swing.*;
  * @author Mohammad hosein Aref
  * @version 1.0
  */
-public class BattleMenuPage implements GameMenController{
+public class BattleMenuPage implements GameMenController {
 
     private User user;
 
@@ -56,6 +60,7 @@ public class BattleMenuPage implements GameMenController{
      */
     @FXML
     void trainingCamp(ActionEvent event) {
-        JOptionPane.showMessageDialog(null,"Enter Training Camp!");
+        Stage current = ((Stage)(((Button)event.getSource()).getScene().getWindow()));
+        GameMenu.startCampMatch(user,current);
     }
 }

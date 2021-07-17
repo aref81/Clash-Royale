@@ -52,4 +52,9 @@ public class GameMenu {
         stage.setY(50);
         stage.show();
     }
+
+    public static void startCampMatch (User user,Stage stage) {
+        TrainingCampMatch match = new TrainingCampMatch(stage,user);
+        match.run();
+    }
 }

@@ -1,12 +1,14 @@
 package sample.GameMenuControllers;
 
-import Classes.User;
+import Classes.*;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -27,12 +29,14 @@ public class DeckPage implements GameMenController, Initializable {
 
     /**
      * sets user field
+     * and reloads the deck of user
      *
      * @param user  the logged in user
      */
     @Override
     public void setUser(User user) {
         this.user = user;
+        deckGenerator();
     }
 
     /**
@@ -53,6 +57,52 @@ public class DeckPage implements GameMenController, Initializable {
         deckPics.add(d6);
         deckPics.add(d7);
         deckPics.add(d8);
+    }
+
+    /**
+     *
+     * reloads the deck of user
+     */
+    private void deckGenerator () {
+        for (Card card : user.getDeck()){
+            if (card instanceof Archer){
+                addCard(archer);
+            }
+            else if (card instanceof Arrow){
+                addCard(arrows);
+            }
+            else if (card instanceof BabyDragon){
+                addCard(babyD);
+            }
+            else if (card instanceof Barbarian){
+                addCard(barbarian);
+            }
+            else if (card instanceof Cannon){
+                addCard(cannon);
+            }
+            else if (card instanceof FireBall){
+                addCard(fireBall);
+            }
+            else if (card instanceof Giant){
+                addCard(giant);
+            }
+            else if (card instanceof InfernoTower){
+                addCard(inferno);
+            }
+            else if (card instanceof MiniPEKKA){
+                addCard(peka);
+            }
+            else if (card instanceof Rage){
+                addCard(rage);
+            }
+            else if (card instanceof Valkyrie){
+                addCard(val);
+            }
+            else if (card instanceof Wizard){
+                addCard(wizard);
+            }
+        }
+        updateDeck();
     }
 
     /**
@@ -168,12 +218,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "archer key"
      */
     @FXML
-    void archer(ActionEvent event) {
+    void archer(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(archer)){
+            user.getDeck().remove(deck.indexOf(archer));
             removeCard(archer);
         }
         else {
             addCard(archer);
+            user.getDeck().add(new Archer());
         }
     }
 
@@ -185,12 +237,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "arrows key"
      */
     @FXML
-    void arrows(ActionEvent event) {
+    void arrows(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(arrows)){
+            user.getDeck().remove(deck.indexOf(arrows));
             removeCard(arrows);
         }
         else {
             addCard(arrows);
+            user.getDeck().add(new Arrow());
         }
     }
 
@@ -202,12 +256,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "baby D key"
      */
     @FXML
-    void babyD(ActionEvent event) {
+    void babyD(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(babyD)){
+            user.getDeck().remove(deck.indexOf(babyD));
             removeCard(babyD);
         }
         else {
             addCard(babyD);
+            user.getDeck().add(new BabyDragon());
         }
     }
 
@@ -219,12 +275,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "barbarian key"
      */
     @FXML
-    void barbarian(ActionEvent event) {
+    void barbarian(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(barbarian)){
+            user.getDeck().remove(deck.indexOf(barbarian));
             removeCard(barbarian);
         }
         else {
             addCard(barbarian);
+            user.getDeck().add(new Barbarian());
         }
     }
 
@@ -236,12 +294,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "cannon key"
      */
     @FXML
-    void cannon(ActionEvent event) {
+    void cannon(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(cannon)){
+            user.getDeck().remove(deck.indexOf(cannon));
             removeCard(cannon);
         }
         else {
             addCard(cannon);
+            user.getDeck().add(new Cannon());
         }
     }
 
@@ -253,12 +313,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "fireBall key"
      */
     @FXML
-    void fireBall(ActionEvent event) {
+    void fireBall(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(fireBall)){
+            user.getDeck().remove(deck.indexOf(fireBall));
             removeCard(fireBall);
         }
         else {
             addCard(fireBall);
+            user.getDeck().add(new FireBall());
         }
     }
 
@@ -270,12 +332,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "giant key"
      */
     @FXML
-    void giant(ActionEvent event) {
+    void giant(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(giant)){
+            user.getDeck().remove(deck.indexOf(giant));
             removeCard(giant);
         }
         else {
             addCard(giant);
+            user.getDeck().add(new Giant());
         }
     }
 
@@ -287,12 +351,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "inferno key"
      */
     @FXML
-    void inferno(ActionEvent event) {
+    void inferno(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(inferno)){
+            user.getDeck().remove(deck.indexOf(inferno));
             removeCard(inferno);
         }
         else {
             addCard(inferno);
+            user.getDeck().add(new InfernoTower());
         }
     }
 
@@ -304,12 +370,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "peka key"
      */
     @FXML
-    void peka(ActionEvent event) {
+    void peka(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(peka)){
+            user.getDeck().remove(deck.indexOf(peka));
             removeCard(peka);
         }
         else {
             addCard(peka);
+            user.getDeck().add(new MiniPEKKA());
         }
     }
 
@@ -321,12 +389,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "rage key"
      */
     @FXML
-    void rage(ActionEvent event) {
+    void rage(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(rage)){
+            user.getDeck().remove(deck.indexOf(rage));
             removeCard(rage);
         }
         else {
             addCard(rage);
+            user.getDeck().add(new Rage());
         }
     }
 
@@ -338,12 +408,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "val key"
      */
     @FXML
-    void val(ActionEvent event) {
+    void val(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(val)){
+            user.getDeck().remove(deck.indexOf(val));
             removeCard(val);
         }
         else {
             addCard(val);
+            user.getDeck().add(new Valkyrie());
         }
     }
 
@@ -355,12 +427,14 @@ public class DeckPage implements GameMenController, Initializable {
      * @param event the "wizard key"
      */
     @FXML
-    void wizard(ActionEvent event) {
+    void wizard(ActionEvent event) throws FileNotFoundException {
         if (deck.contains(wizard)){
+            user.getDeck().remove(deck.indexOf(wizard));
             removeCard(wizard);
         }
         else {
             addCard(wizard);
+            user.getDeck().add(new Wizard());
         }
     }
 }

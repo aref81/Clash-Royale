@@ -1,3 +1,6 @@
+
+
+
 import Classes.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,7 +9,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.Scanner;
 
@@ -54,7 +56,7 @@ public class SignInController {
                         User user= new User(in.nextLine(),in.nextLine(),in.nextLine());
                         if (user.getUserName().equals(UserName.getText()) && Password.getText().equals(user.getPassword())) {
                             Stage current = ((Stage)(((Button)event.getSource()).getScene().getWindow()));
-                            Main.startGame(user,current);
+                            Main.startGameMenu(user,current);
                             found = true;
                             break;
                         }

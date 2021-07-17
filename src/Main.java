@@ -1,4 +1,5 @@
 import Classes.GameMenu;
+import Classes.TrainingCampMatch;
 import Classes.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -50,8 +51,9 @@ public class Main extends Application {
      * @param user the logged in user
      * @param stage the primary stage of application
      */
-    public static void startGame (User user,Stage stage) {
+    public static void startGameMenu (User user,Stage stage) {
         GameMenu gameMenu = new GameMenu(stage,user);
         gameMenu.run();
     }
+
 }

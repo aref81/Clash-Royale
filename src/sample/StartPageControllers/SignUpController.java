@@ -1,3 +1,5 @@
+
+
 import Classes.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -5,8 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 import java.io.*;
 import java.util.Scanner;
 
@@ -74,7 +74,7 @@ public class SignUpController {
                         out.println(user.getPassword());
                         out.println(user.getPoints());
                         Stage current = ((Stage)(((Button)event.getSource()).getScene().getWindow()));
-                        Main.startGame(user,current);
+                        Main.startGameMenu(user,current);
                     }
                 }
             } else {

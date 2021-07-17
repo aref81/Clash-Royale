@@ -1,6 +1,7 @@
 package Classes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Implements a User in the game
@@ -14,6 +15,7 @@ public class User implements Serializable {
     private String userName;
     private String password;
     private String points;
+    private ArrayList<Card> deck;
 
     /**
      * initializes a use using passed arguments
@@ -26,6 +28,7 @@ public class User implements Serializable {
         this.userName = userName;
         this.password = password;
         this.points = points;
+        deck = new ArrayList<>();
     }
 
     /**
@@ -72,4 +75,23 @@ public class User implements Serializable {
     public void setPoints(String points) {
         this.points = points;
     }
+
+    /**
+     * returnns the deck of user
+     *
+     * @return the deck
+     */
+    public ArrayList<Card> getDeck() {
+        return deck;
+    }
+
+    /**
+     * changes the deck of user
+     *
+     * @param deck the new deck
+     */
+    public void setDeck(ArrayList<Card> deck) {
+        this.deck = deck;
+    }
+
 }
