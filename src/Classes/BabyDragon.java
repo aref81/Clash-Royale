@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,9 +14,10 @@ public class BabyDragon extends RangeTroop {
      * Instantiates a new Baby dragon.
      */
     public BabyDragon() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/BabyDragonCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Baby Dragon.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/BabyDragonCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Baby Dragon.png")),"BabyDragon");
         HitSpeed = 1.8;
         Speed = "Fast";
+        Target = "AG";
         AreaSplash = true;
         Count = 1;
         Range = 3;
@@ -45,5 +47,9 @@ public class BabyDragon extends RangeTroop {
                 HP = 1168;
                 Damage = 146;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

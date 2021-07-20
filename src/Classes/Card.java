@@ -1,13 +1,15 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 /**
  * The type Card.
  */
-public class Card {
+public abstract class Card {
     private final Image cardPic;
     private final Image gamePic;
+    private final String name;
 
     /**
      * The Cost.
@@ -18,9 +20,10 @@ public class Card {
      */
     protected int Level;
 
-    public Card(Image cardPic, Image gamePic) {
+    public Card(Image cardPic, Image gamePic, String name) {
         this.cardPic = cardPic;
         this.gamePic = gamePic;
+        this.name = name;
     }
 
     /**
@@ -48,4 +51,27 @@ public class Card {
     public Image getGamePic() {
         return gamePic;
     }
+
+    /**
+     * returns the name of card
+     *
+     * @return the name of card
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * returns the cost of card
+     *
+     * @return the cost
+     */
+    public int getCost() {
+        return Cost;
+    }
+
+    public void action (Action action){
+
+    }
+
 }

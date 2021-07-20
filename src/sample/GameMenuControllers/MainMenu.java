@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 
 public class MainMenu implements Initializable {
     private User user;
+    private GameMenController initcontroller;
 
     /**
      * sets the user of the menu
@@ -24,6 +25,7 @@ public class MainMenu implements Initializable {
      */
     public void setUser(User user) {
         this.user = user;
+        initcontroller.setUser(user);
     }
 
     /**
@@ -42,7 +44,9 @@ public class MainMenu implements Initializable {
         keyDiselect(match);
         keyDiselect(deck);
         try {
-            fxml = FXMLLoader.load(getClass().getResource("../GameMenu/BattleMenuPage.fxml"));
+            FXMLLoader loader  = new FXMLLoader((getClass().getResource("../GameMenu/BattleMenuPage.fxml")));
+            fxml = loader.load();
+            initcontroller = loader.getController();
             vbox.getChildren().removeAll();
             vbox.getChildren().setAll(fxml);
         } catch (IOException e) {

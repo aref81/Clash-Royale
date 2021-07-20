@@ -3,7 +3,7 @@ package Classes;
 /**
  * The type Tower.
  */
-public class Tower{
+public abstract class Tower {
     /**
      * The Hp.
      */

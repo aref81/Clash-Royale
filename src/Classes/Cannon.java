@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +14,8 @@ public class Cannon extends Building{
      * Instantiates a new Cannon.
      */
     public Cannon() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Buildings/CannonCard.png")),new Image(new FileInputStream("src/sample/Game/Buildings/Cannon.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Buildings/CannonCard.png")),new Image(new FileInputStream("src/sample/Game/Buildings/Cannon.png")),"Cannon");
+        Target = "G";
         HitSpeed = 0.8;
         Range = 5.5;
         LifeTime = 30;
@@ -42,5 +44,9 @@ public class Cannon extends Building{
                 HP = 554;
                 Damage = 87;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

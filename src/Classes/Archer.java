@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,8 +15,9 @@ public class Archer extends RangeTroop {
      * Instantiates a new Archer.
      */
     public Archer() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/ArchersCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Archer.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/ArchersCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Archer.png")),"Archer");
         HitSpeed = 1.2;
+        Target = "AG";
         Speed = "Medium";
         AreaSplash = false;
         Count = 4;
@@ -45,5 +47,10 @@ public class Archer extends RangeTroop {
                 HP = 182;
                 Damage = 58;
         }
+    }
+
+    @Override
+    public void action (Action action){
+
     }
 }

@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 /**
  * The type Fight card.
  */
-public class FightCard extends Card{
+public abstract class FightCard extends Card{
     /**
      * The Hp.
      */
@@ -15,11 +15,19 @@ public class FightCard extends Card{
      */
     protected int Damage;
     /**
+     * The Target.
+     */
+    protected String Target;
+    /**
      * The Hit speed.
      */
     protected double HitSpeed;
 
-    public FightCard(Image cardPic,Image gamePic) {
-        super(cardPic, gamePic);
+    public FightCard(Image cardPic,Image gamePic , String name) {
+        super(cardPic, gamePic, name);
+    }
+
+    public int getHP() {
+        return HP;
     }
 }

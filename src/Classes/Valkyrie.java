@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,9 +14,10 @@ public class Valkyrie extends Troop{
      * Instantiates a new Valkyrie.
      */
     public Valkyrie() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/ValkyrieCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Valkyrie.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/ValkyrieCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Valkyrie.png")),"Valkyrire");
         HitSpeed = 1.5;
         Speed = "Medium";
+        Target = "G";
         IsMelee = true;
         AreaSplash = true;
         Count = 1;
@@ -46,5 +48,9 @@ public class Valkyrie extends Troop{
                 Damage = 175;
                 break;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

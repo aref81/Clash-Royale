@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,9 +14,10 @@ public class MiniPEKKA extends Troop{
      * Instantiates a new Mini pekka.
      */
     public MiniPEKKA() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/MiniPEKKACard.png")),new Image(new FileInputStream("src/sample/Game/Troops/peka.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/MiniPEKKACard.png")),new Image(new FileInputStream("src/sample/Game/Troops/peka.png")),"MiniPEKKA");
         HitSpeed = 1.8;
         Speed = "Fast";
+        Target = "G";
         IsMelee = true;
         AreaSplash = false;
         Count = 1;
@@ -45,5 +47,9 @@ public class MiniPEKKA extends Troop{
                 HP = 876;
                 Damage = 474;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

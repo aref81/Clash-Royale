@@ -60,7 +60,13 @@ public class BattleMenuPage implements GameMenController {
      */
     @FXML
     void trainingCamp(ActionEvent event) {
-        Stage current = ((Stage)(((Button)event.getSource()).getScene().getWindow()));
-        GameMenu.startCampMatch(user,current);
+        if (user.getDeck() != null && user.getDeck().size() == 8) {
+            Stage current = ((Stage) (((Button) event.getSource()).getScene().getWindow()));
+            GameMenu.startCampMatch(user, current);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Please set your deck first");
+        }
+
     }
 }

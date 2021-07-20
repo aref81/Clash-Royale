@@ -2,6 +2,7 @@ package Classes;
 
 import javafx.scene.image.Image;
 import org.w3c.dom.ranges.Range;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,9 +15,10 @@ public class Barbarian extends Troop{
      * Instantiates a new Barbarian.
      */
     public Barbarian() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/BarbariansCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Barbarian.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/BarbariansCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Barbarian.png")),"Barbarian");
         HitSpeed = 1.5;
         Speed = "Medium";
+        Target = "G";
         IsMelee = true;
         AreaSplash = false;
         Count = 4;
@@ -44,5 +46,9 @@ public class Barbarian extends Troop{
                 HP = 480;
                 Damage = 109;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

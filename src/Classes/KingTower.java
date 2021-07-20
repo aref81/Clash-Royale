@@ -1,13 +1,17 @@
 package Classes;
 
+import sample.GameControllers.Action;
+
 /**
  * The type King tower.
  */
-public class KingTower extends Tower{
+public class KingTower extends Tower {
+    private boolean isActive;
     /**
      * Instantiates a new King tower.
      */
     public KingTower(){
+        isActive = false;
         Range = 7;
         HitSpeed = 1;
         HP = 2400;
@@ -35,5 +39,9 @@ public class KingTower extends Tower{
                 HP = 3096;
                 Damage = 64;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

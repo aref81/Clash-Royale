@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +14,7 @@ public class FireBall extends DamageSpell{
      * Instantiates a new Fire ball.
      */
     public FireBall() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Spells/FireballCard.png")),new Image(new FileInputStream("src/sample/Game/Spells/Fireball.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Spells/FireballCard.png")),new Image(new FileInputStream("src/sample/Game/Spells/Fireball.png")),"FireBall");
         Radius = 2.5;
         Cost = 4;
         AreaDamage = 325;
@@ -37,5 +38,9 @@ public class FireBall extends DamageSpell{
                 AreaDamage = 474;
                 break;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

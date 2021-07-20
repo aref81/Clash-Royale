@@ -1,5 +1,7 @@
 package Classes;
 
+import sample.GameControllers.Action;
+
 /**
  * The type Queen tower.
  */
@@ -35,5 +37,9 @@ public class QueenTower extends Tower{
                 HP = 1890;
                 Damage = 69;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

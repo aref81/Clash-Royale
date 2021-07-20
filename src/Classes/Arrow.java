@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +14,7 @@ public class Arrow extends DamageSpell{
      * Instantiates a new Arrow.
      */
     public Arrow() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Spells/ArrowsCard.png")),new Image(new FileInputStream("src/sample/Game/Spells/Arrows.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Spells/ArrowsCard.png")),new Image(new FileInputStream("src/sample/Game/Spells/Arrows.png")),"Arrow");
         Radius = 4;
         Cost = 3;
         AreaDamage = 144;
@@ -37,5 +38,9 @@ public class Arrow extends DamageSpell{
                 AreaDamage = 210;
                 break;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

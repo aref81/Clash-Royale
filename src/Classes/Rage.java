@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,7 +16,7 @@ public class Rage extends Spell{
      * Instantiates a new Rage.
      */
     public Rage() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Spells/RageCard.png")),new Image(new FileInputStream("src/sample/Game/Spells/Rage.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Spells/RageCard.png")),new Image(new FileInputStream("src/sample/Game/Spells/Rage.png")),"Rage");
         Radius = 5;
         Cost = 3;
         Duration = 6;
@@ -38,5 +39,9 @@ public class Rage extends Spell{
                 Duration = 8;
                 break;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

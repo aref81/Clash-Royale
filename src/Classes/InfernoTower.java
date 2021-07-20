@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +14,8 @@ public class InfernoTower extends Building{
      * Instantiates a new Inferno tower.
      */
     public InfernoTower() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Buildings/InfernoTowerCard.png")),new Image(new FileInputStream("src/sample/Game/Buildings/InfernoTower.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Buildings/InfernoTowerCard.png")),new Image(new FileInputStream("src/sample/Game/Buildings/InfernoTower.png")),"InfernoTower");
+        Target = "AG";
         HitSpeed = 0.4;
         Range = 6;
         LifeTime = 40;
@@ -42,5 +44,9 @@ public class InfernoTower extends Building{
                 HP = 1168;
                 Damage = 29;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

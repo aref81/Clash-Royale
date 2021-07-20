@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,9 +14,10 @@ public class Giant extends Troop{
      * Instantiates a new Giant.
      */
     public Giant() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/GiantCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Giant.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/GiantCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Giant.png")),"Giant");
         HitSpeed = 1.5;
         Speed = "Slow";
+        Target = "B";
         IsMelee = true;
         AreaSplash = false;
         Count = 1;
@@ -46,5 +48,9 @@ public class Giant extends Troop{
                 Damage = 183;
                 break;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

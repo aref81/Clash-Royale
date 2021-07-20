@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,9 +14,10 @@ public class Wizard extends RangeTroop{
      * Instantiates a new Wizard.
      */
     public Wizard() throws FileNotFoundException {
-        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/WizardCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Wizard.png")));
+        super(new Image(new FileInputStream("src/sample/GameMenu/Troops/WizardCard.png")),new Image(new FileInputStream("src/sample/Game/Troops/Wizard.png")),"Wizard");
         HitSpeed = 1.7;
         Speed = "Medium";
+        Target = "AG";
         AreaSplash = true;
         Count = 1;
         Range = 5;
@@ -46,5 +48,9 @@ public class Wizard extends RangeTroop{
                 Damage = 189;
                 break;
         }
+    }
+
+    public void action (Action action){
+
     }
 }

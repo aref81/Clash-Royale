@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 /**
  * The type Troop.
  */
-public class Troop extends FightCard{
+public abstract class Troop extends FightCard{
 
     /**
      * The Speed.
@@ -25,7 +25,7 @@ public class Troop extends FightCard{
     protected int Count;
 
 
-    public Troop(Image cardPic, Image gamePic) {
-        super(cardPic, gamePic);
+    public Troop(Image cardPic, Image gamePic , String name) {
+        super(cardPic, gamePic , name);
     }
 }
