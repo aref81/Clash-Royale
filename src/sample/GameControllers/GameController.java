@@ -31,13 +31,15 @@ public class GameController implements Initializable {
     private final Card[] cards = new Card[4];
     private Card nextCard;
     private ExecutorService pool;
+    private GameTime gameTime;
 
     public void setUser(User user) {
         this.user = user;
         setFirstCards();
         updateDeckView();
         pool = Executors.newCachedThreadPool();
-        pool.execute(new GameTime(ElBar,timer,elixir));
+        gameTime = new GameTime(ElBar,timer,elixir);
+        pool.execute(gameTime);
     }
 
     @Override
@@ -290,19 +292,19 @@ public class GameController implements Initializable {
                             if (cards[index] instanceof Barbarian) {
                                 if (mapStatus[row + yExtend][col] == "Free" || mapStatus[row][col + xExtend] == "Free" || mapStatus[row + yExtend][col + xExtend] == "Free") {
                                     mapStatus[row][col] = "BlueFilled";
-                                    Action action1 = new Action(card, mapView, map, mapStatus, mapContent, row, col);
+                                    Action action1 = new Action(card, mapView, map, mapStatus, mapContent, row, col,gameTime);
                                     mapContent[row][col] = action1;
                                     mapView[row][col].setImage(cards[index].getGamePic());
                                     mapStatus[row + yExtend][col] = "BlueFilled";
-                                    Action action2 = new Action(card, mapView, map, mapStatus, mapContent, row + yExtend, col);
+                                    Action action2 = new Action(card, mapView, map, mapStatus, mapContent, row + yExtend, col,gameTime);
                                     mapContent[row + yExtend][col] = action2;
                                     mapView[row + yExtend][col].setImage(cards[index].getGamePic());
                                     mapStatus[row][col + xExtend] = "BlueFilled";
-                                    Action action3 = new Action(card, mapView, map, mapStatus, mapContent, row, col + xExtend);
+                                    Action action3 = new Action(card, mapView, map, mapStatus, mapContent, row, col + xExtend,gameTime);
                                     mapContent[row][col + xExtend] = action3;
                                     mapView[row][col + xExtend].setImage(cards[index].getGamePic());
                                     mapStatus[row + yExtend][col + xExtend] = "BlueFilled";
-                                    Action action4 = new Action(card, mapView, map, mapStatus, mapContent, row + yExtend, col + xExtend);
+                                    Action action4 = new Action(card, mapView, map, mapStatus, mapContent, row + yExtend, col + xExtend,gameTime);
                                     mapContent[row + yExtend][col + xExtend] = action4;
                                     mapView[row + yExtend][col + xExtend].setImage(card.getGamePic());
                                     ejectCard(index);
@@ -314,11 +316,11 @@ public class GameController implements Initializable {
                             } else if (cards[index] instanceof Archer) {
                                 if (mapStatus[row][col + xExtend] == "Free") {
                                     mapStatus[row][col] = "BlueFilled";
-                                    Action action1 = new Action(card, mapView, map, mapStatus, mapContent, row, col);
+                                    Action action1 = new Action(card, mapView, map, mapStatus, mapContent, row, col,gameTime);
                                     mapContent[row][col] = action1;
                                     mapView[row][col].setImage(cards[index].getGamePic());
                                     mapStatus[row][col + xExtend] = "BlueFilled";
-                                    Action action2 = new Action(card, mapView, map, mapStatus, mapContent, row, col + xExtend);
+                                    Action action2 = new Action(card, mapView, map, mapStatus, mapContent, row, col + xExtend,gameTime);
                                     mapContent[row][col + xExtend] = action2;
                                     mapView[row][col + xExtend].setImage(cards[index].getGamePic());
                                     ejectCard(index);
@@ -327,7 +329,7 @@ public class GameController implements Initializable {
                                 }
                             } else {
                                 mapStatus[row][col] = "BlueFilled";
-                                Action action = new Action(card, mapView, map, mapStatus, mapContent, row, col);
+                                Action action = new Action(card, mapView, map, mapStatus, mapContent, row, col,gameTime);
                                 mapContent[row][col] = action;
                                 mapView[row][col].setImage(cards[index].getGamePic());
                                 ejectCard(index);
@@ -361,5 +363,9 @@ public class GameController implements Initializable {
         cards[index] = nextCard;
         nextCard = user.getRandomCard(cards[0],cards[1],cards[2],cards[3]);
         updateDeckView();
+    }
+
+    public GameTime getGameTime() {
+        return gameTime;
     }
 }

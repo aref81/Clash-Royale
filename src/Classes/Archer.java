@@ -20,7 +20,7 @@ public class Archer extends RangeTroop {
         Target = "AG";
         Speed = "Medium";
         AreaSplash = false;
-        Count = 4;
+        Count = 2;
         Range = 2;
         Cost = 3;
         Level = 1;
@@ -51,6 +51,22 @@ public class Archer extends RangeTroop {
 
     @Override
     public void action (Action action){
-
+        Action opponent = action.inRange(Range);
+        if (opponent != null){
+            try {
+                Thread.sleep(1200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            opponent.getHit(Damage);
+        }
+        else {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            action.move();
+        }
     }
 }

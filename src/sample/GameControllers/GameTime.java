@@ -5,6 +5,7 @@ import javafx.scene.text.Text;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameTime implements Runnable{
+    private boolean endGame;
     private Text ElBar;
     private Text timer;
     private AtomicInteger elixir;
@@ -34,5 +35,14 @@ public class GameTime implements Runnable{
                 e.printStackTrace();
             }
         }
+        endGame = true;
+    }
+
+    public boolean isEndGame() {
+        return endGame;
+    }
+
+    public void setEndGame(boolean endGame) {
+        this.endGame = endGame;
     }
 }

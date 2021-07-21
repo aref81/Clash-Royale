@@ -1,6 +1,7 @@
 package Classes;
 
 import javafx.scene.image.Image;
+import sample.GameControllers.Action;
 
 /**
  * The type Fight card.
@@ -29,5 +30,13 @@ public abstract class FightCard extends Card{
 
     public int getHP() {
         return HP;
+    }
+
+    public String getTarget() {
+        return Target;
+    }
+
+    public void action (Action action){
+
     }
 }
