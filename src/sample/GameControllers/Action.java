@@ -15,12 +15,13 @@ public class Action implements Runnable{
     private Action [][] mapContent;
     private String [][] airTroop;
     private Action [][] airContent;
+    private String [][] spellState;
     private int row;
     private int column;
     private GameTime gameTime;
 
 
-    public Action(FightCard card, ImageView[][] mapView, String[][] map, String[][] troop, Action[][] mapContent, int row, int column, GameTime gameTime, String side, int hp, String[][] airTroop, Action[][] airContent) {
+    public Action(FightCard card, ImageView[][] mapView, String[][] map, String[][] troop, Action[][] mapContent, int row, int column, GameTime gameTime, String side, int hp, String[][] airTroop, Action[][] airContent,String[][] spellState) {
         this.card = card;
         if (card == null){
             this.hp = hp;
@@ -39,6 +40,7 @@ public class Action implements Runnable{
         this.side = side;
         this.airTroop = airTroop;
         this.airContent = airContent;
+        this.spellState = spellState;
         if (side.equals("Red")){
             opponent = "Blue";
         }
@@ -58,17 +60,21 @@ public class Action implements Runnable{
             int deadLine = gameTime.getTime() - building.getLifeTime();
 
             while ((hp > 0) && !gameTime.isEndGame() && gameTime.getTime() > deadLine) {
-                card.action(this);
+                card.action(this,isRage());
                 updateStatus();
             }
         }
         else {
             while ((hp > 0) && !gameTime.isEndGame()) {
-                card.action(this);
+                card.action(this,isRage());
                 updateStatus();
             }
         }
         die();
+    }
+
+    private boolean isRage () {
+        return spellState[row][column].contains(side);
     }
 
     private void die () {
@@ -192,12 +198,25 @@ public class Action implements Runnable{
                 if (left > right) {
                     column++;
                     if (troop[row][column].contains("Filled")) {
-                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
-                            row++;
-                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
-                            row--;
-                        } else {
-                            column--;
+                        if (side.equals("Blue")){
+                            if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            }
+                            else if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            }
+                            else {
+                                column--;
+                            }
+                        }
+                        else {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column--;
+                            }
                         }
                     }
                     if (side.equals("Blue")) {
@@ -210,12 +229,25 @@ public class Action implements Runnable{
                 } else  if (right > left){
                     column--;
                     if (troop[row][column].contains("Filled")) {
-                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
-                            row++;
-                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
-                            row--;
-                        } else {
-                            column++;
+                        if (side.equals("Blue")){
+                            if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            }
+                            else if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            }
+                            else {
+                                column++;
+                            }
+                        }
+                        else {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column++;
+                            }
                         }
                     }
                     if (side.equals("Blue")) {
@@ -223,17 +255,32 @@ public class Action implements Runnable{
                     } else {
                         troop[row][column] = "RedFilled";
                     }
+                    mapContent[row][column] = this;
+                    mapView[row][column].setImage(card.getGamePic());
                 }
                 else {
                     if (column < 3){
                         column++;
                         if (troop[row][column].contains("Filled")) {
-                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
-                                row++;
-                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
-                                row--;
-                            } else {
-                                column--;
+                            if (side.equals("Blue")){
+                                if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                    row--;
+                                }
+                                else if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                    row++;
+                                }
+                                else {
+                                    column--;
+                                }
+                            }
+                            else {
+                                if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                    row++;
+                                } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                    row--;
+                                } else {
+                                    column--;
+                                }
                             }
                         }
                         if (side.equals("Blue")) {
@@ -247,12 +294,25 @@ public class Action implements Runnable{
                     else {
                         column--;
                         if (troop[row][column].contains("Filled")) {
-                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
-                                row++;
-                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
-                                row--;
-                            } else {
-                                column++;
+                            if (side.equals("Blue")){
+                                if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                    row--;
+                                }
+                                else if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                    row++;
+                                }
+                                else {
+                                    column++;
+                                }
+                            }
+                            else {
+                                if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                    row++;
+                                } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                    row--;
+                                } else {
+                                    column++;
+                                }
                             }
                         }
                         if (side.equals("Blue")) {
@@ -260,6 +320,8 @@ public class Action implements Runnable{
                         } else {
                             troop[row][column] = "RedFilled";
                         }
+                        mapContent[row][column] = this;
+                        mapView[row][column].setImage(card.getGamePic());
                     }
                 }
             }
@@ -323,41 +385,79 @@ public class Action implements Runnable{
                 mapView[row][column].setImage(null);
 
                 row--;
-
-                if (map[row + 1][column - 1].equals("Way")){
-                    row++;
-                    column--;
-                    if (troop[row][column].contains("Filled")) {
-                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
-                            row++;
-                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
-                            row--;
-                        } else {
-                            column++;
+                if (column < 9){
+                    if (map[row + 1][column + 1].equals("Way")){
+                        row++;
+                        column++;
+                        if (troop[row][column].contains("Filled")) {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column--;
+                            }
                         }
                     }
-                }
-                else if (map[row + 1][column + 1].equals("Way")){
-                    row++;
-                    column++;
-                    if (troop[row][column].contains("Filled")) {
-                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
-                            row++;
-                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
-                            row--;
-                        } else {
-                            column--;
+                    else if (map[row + 1][column - 1].equals("Way")){
+                        row++;
+                        column--;
+                        if (troop[row][column].contains("Filled")) {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column++;
+                            }
+                        }
+                    }
+                    else {
+                        if (troop[row][column].contains("Filled")) {
+                            if (column + 1 < 18 && !(troop[row][column + 1].contains("Filled"))) {
+                                column++;
+                            } else if (column - 1 >= 0 && !(troop[row][column - 1].contains("Filled"))) {
+                                column--;
+                            } else {
+                                row++;
+                            }
                         }
                     }
                 }
                 else {
-                    if (troop[row][column].contains("Filled")) {
-                        if (column + 1 < 18 && !(troop[row][column + 1].contains("Filled"))) {
-                            column++;
-                        } else if (column - 1 >= 0 && !(troop[row][column - 1].contains("Filled"))) {
-                            column--;
-                        } else {
-                            row++;
+                    if (map[row + 1][column - 1].equals("Way")) {
+                        row++;
+                        column--;
+                        if (troop[row][column].contains("Filled")) {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column++;
+                            }
+                        }
+                    } else if (map[row + 1][column + 1].equals("Way")) {
+                        row++;
+                        column++;
+                        if (troop[row][column].contains("Filled")) {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column--;
+                            }
+                        }
+                    } else {
+                        if (troop[row][column].contains("Filled")) {
+                            if (column + 1 < 18 && !(troop[row][column + 1].contains("Filled"))) {
+                                column++;
+                            } else if (column - 1 >= 0 && !(troop[row][column - 1].contains("Filled"))) {
+                                column--;
+                            } else {
+                                row++;
+                            }
                         }
                     }
                 }
@@ -373,40 +473,79 @@ public class Action implements Runnable{
 
                 row++;
 
-                if (map[row + 1][column - 1].equals("Way")){
-                    row--;
-                    column--;
-                    if (troop[row][column].contains("Filled")) {
-                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
-                            row++;
-                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
-                            row--;
-                        } else {
-                            column++;
+                if (column < 9){
+                    if (map[row + 1][column + 1].equals("Way")){
+                        row--;
+                        column++;
+                        if (troop[row][column].contains("Filled")) {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column--;
+                            }
                         }
                     }
-                }
-                else if (map[row + 1][column + 1].equals("Way")){
-                    row--;
-                    column++;
-                    if (troop[row][column].contains("Filled")) {
-                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
-                            row++;
-                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
-                            row--;
-                        } else {
-                            column--;
+                    else if (map[row + 1][column - 1].equals("Way")){
+                        row--;
+                        column--;
+                        if (troop[row][column].contains("Filled")) {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column++;
+                            }
+                        }
+                    }
+                    else {
+                        if (troop[row][column].contains("Filled")) {
+                            if (column + 1 < 18 && !(troop[row][column + 1].contains("Filled"))) {
+                                column++;
+                            } else if (column - 1 >= 0 && !(troop[row][column - 1].contains("Filled"))) {
+                                column--;
+                            } else {
+                                row--;
+                            }
                         }
                     }
                 }
                 else {
-                    if (troop[row][column].contains("Filled")) {
-                        if (column + 1 < 18 && !(troop[row][column + 1].contains("Filled"))) {
-                            column++;
-                        } else if (column - 1 >= 0 && !(troop[row][column - 1].contains("Filled"))) {
-                            column--;
-                        } else {
-                            row--;
+                    if (map[row + 1][column - 1].equals("Way")) {
+                        row--;
+                        column--;
+                        if (troop[row][column].contains("Filled")) {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column++;
+                            }
+                        }
+                    } else if (map[row + 1][column + 1].equals("Way")) {
+                        row--;
+                        column++;
+                        if (troop[row][column].contains("Filled")) {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column--;
+                            }
+                        }
+                    } else {
+                        if (troop[row][column].contains("Filled")) {
+                            if (column + 1 < 18 && !(troop[row][column + 1].contains("Filled"))) {
+                                column++;
+                            } else if (column - 1 >= 0 && !(troop[row][column - 1].contains("Filled"))) {
+                                column--;
+                            } else {
+                                row--;
+                            }
                         }
                     }
                 }
@@ -474,4 +613,9 @@ public class Action implements Runnable{
     public String[][] getAirTroop() {
         return airTroop;
     }
+
+    public String[][] getSpellState() {
+        return spellState;
+    }
+
 }

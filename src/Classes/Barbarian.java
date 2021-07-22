@@ -48,19 +48,19 @@ public class Barbarian extends Troop{
         }
     }
 
-    public synchronized void action (Action action){
+    public synchronized void action (Action action,boolean isRage){
         Action enemy = action.inRange(1);
         if (enemy != null){
             try {
-                Thread.sleep(1500);
+                Thread.sleep((long) (1500 * (isRage?0.6:1)));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            enemy.getHit(Damage);
+            enemy.getHit((int) (Damage * (isRage?1.4:1)));
         }
         else {
             try {
-                Thread.sleep(1000);
+                Thread.sleep((long) (1000 * (isRage?0.6:1)));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

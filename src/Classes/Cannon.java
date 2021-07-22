@@ -46,15 +46,15 @@ public class Cannon extends Building{
         }
     }
 
-    public void action (Action action){
+    public void action (Action action , boolean isRage){
         Action enemy = action.inRange((int) Math.floor(Range));
         if (enemy != null){
             try {
-                Thread.sleep(800);
+                Thread.sleep((long) (800 * (isRage?0.6:1)));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            enemy.getHit(Damage);
+            enemy.getHit((int) (Damage * (isRage?1.4:1)));
         }
     }
 }

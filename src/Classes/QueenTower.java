@@ -14,8 +14,8 @@ public class QueenTower extends Tower{
     /**
      * Instantiates a new Queen tower.
      */
-    public QueenTower(FightCard card, ImageView[][] mapView, String[][] map, String[][] troop, Action[][] mapContent, int row, int column, GameTime gameTime, String side , ImageView imageView , String[][] mapStatus ,KingTower king, String[][] airTroop , Action[][] airFieldContent){
-        super(card, mapView, map, troop, mapContent, row, column, gameTime,side , 1400, imageView,mapStatus,airTroop,airFieldContent);
+    public QueenTower(FightCard card, ImageView[][] mapView, String[][] map, String[][] troop, Action[][] mapContent, int row, int column, GameTime gameTime, String side , ImageView imageView , String[][] mapStatus ,KingTower king, String[][] airTroop , Action[][] airFieldContent,String[][] spellState){
+        super(card, mapView, map, troop, mapContent, row, column, gameTime,side , 1400, imageView,mapStatus,airTroop,airFieldContent,spellState);
         Range = 7.5;
         HitSpeed = 0.8;
         HP = 1400;
@@ -57,14 +57,14 @@ public class QueenTower extends Tower{
                 Action opponent = inRange((int) Math.floor(7.5));
                 if (opponent != null) {
                     try {
-                        Thread.sleep(800);
+                        Thread.sleep((long) (800 * (isRage()?0.6:1)));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    opponent.getHit(Damage);
+                    opponent.getHit((int) (Damage * (isRage()?1.4:1)));
                 } else {
                     try {
-                        Thread.sleep(800);
+                        Thread.sleep((long) (800 * (isRage()?0.6:1)));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -72,6 +72,40 @@ public class QueenTower extends Tower{
             }
         }
         die();
+    }
+
+    private boolean isRage () {
+        int rowUp;
+        int rowDown;
+        int colLeft;
+        int colRight;
+
+        if (getRow() > rowEnd){
+            rowDown = getRow();
+            rowUp = rowEnd;
+        }
+        else {
+            rowDown = rowEnd;
+            rowUp = getRow();
+        }
+
+        if ( getColumn() > columnEnd){
+            colRight = getColumn();
+            colLeft = columnEnd;
+        }
+        else {
+            colLeft = getColumn();
+            colRight = columnEnd;
+        }
+
+        for (int i = rowUp ; i <= rowDown ; i++){
+            for (int j = colLeft ; j <= colRight ; j++){
+                if (getSpellState()[i][j].contains(getSide())){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void die () {

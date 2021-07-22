@@ -50,19 +50,19 @@ public class Giant extends Troop{
         }
     }
 
-    public synchronized void action (Action action){
+    public synchronized void action (Action action,boolean isRage){
         Action opponent = action.inRange(1);
         if (opponent != null){
             try {
-                Thread.sleep(1500);
+                Thread.sleep((long) (1500* (isRage?0.6:1)));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            opponent.getHit(Damage);
+            opponent.getHit((int) (Damage * (isRage?1.4:1)));
         }
         else {
             try {
-                Thread.sleep(1500);
+                Thread.sleep((long) (1500 * (isRage?0.6:1)));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

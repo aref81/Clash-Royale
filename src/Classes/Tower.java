@@ -34,8 +34,8 @@ public abstract class Tower extends Action {
 
     protected String[][] mapStatus;
 
-    public Tower(FightCard card, ImageView[][] mapView, String[][] map, String[][] troop, Action[][] mapContent, int row, int column, GameTime gameTime, String side , int hp, ImageView imageView , String[][] mapStatus , String[][] airTroop , Action[][] airFieldContent) {
-        super(card, mapView, map, troop, mapContent, row, column, gameTime, side , hp,airTroop,airFieldContent);
+    public Tower(FightCard card, ImageView[][] mapView, String[][] map, String[][] troop, Action[][] mapContent, int row, int column, GameTime gameTime, String side , int hp, ImageView imageView , String[][] mapStatus , String[][] airTroop , Action[][] airFieldContent,String[][] spellState) {
+        super(card, mapView, map, troop, mapContent, row, column, gameTime, side , hp,airTroop,airFieldContent,spellState);
         destroyed = false;
         this.imageView = imageView;
         this.mapStatus = mapStatus;

@@ -36,7 +36,7 @@ public abstract class FightCard extends Card{
         return Target;
     }
 
-    public void action (Action action){
+    public void action (Action action,boolean isRage){
 
     }
 }

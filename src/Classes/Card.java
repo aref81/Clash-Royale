@@ -70,7 +70,7 @@ public abstract class Card {
         return Cost;
     }
 
-    public void action (Action action){
+    public void action (Action action,boolean isRage){
 
     }
 
