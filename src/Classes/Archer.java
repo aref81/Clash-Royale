@@ -50,15 +50,15 @@ public class Archer extends RangeTroop {
     }
 
     @Override
-    public void action (Action action){
-        Action opponent = action.inRange(Range);
-        if (opponent != null){
+    public synchronized void action (Action action){
+        Action enemy = action.inRange(Range);
+        if (enemy != null){
             try {
                 Thread.sleep(1200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            opponent.getHit(Damage);
+            enemy.getHit(Damage);
         }
         else {
             try {
@@ -66,7 +66,7 @@ public class Archer extends RangeTroop {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            action.move();
+            action.move(action.getTroop(),action.getMapContent());
         }
     }
 }

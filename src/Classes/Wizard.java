@@ -50,7 +50,25 @@ public class Wizard extends RangeTroop{
         }
     }
 
-    public void action (Action action){
-
+    public synchronized void action (Action action){
+        Action enemy = action.inRange(Range);
+        if (enemy != null){
+            try {
+                Thread.sleep(1200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            enemy.getHit(Damage);
+            action.updateStatus();
+            enemy.areaSplash(action.getStatus(),Damage);
+        }
+        else {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            action.move(action.getTroop(),action.getMapContent());
+        }
     }
 }

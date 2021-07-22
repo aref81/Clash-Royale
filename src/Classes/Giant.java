@@ -50,7 +50,23 @@ public class Giant extends Troop{
         }
     }
 
-    public void action (Action action){
-
+    public synchronized void action (Action action){
+        Action opponent = action.inRange(1);
+        if (opponent != null){
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            opponent.getHit(Damage);
+        }
+        else {
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            action.move(action.getTroop(),action.getMapContent());
+        }
     }
 }

@@ -223,9 +223,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(archer));
             removeCard(archer);
         }
-        else {
+        else if (user.getDeck().size() < 8){
             addCard(archer);
-            user.getDeck().add(new Archer());
+            Archer archer = new Archer();
+            upgrade(archer);
+            user.getDeck().add(archer);
         }
     }
 
@@ -242,9 +244,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(arrows));
             removeCard(arrows);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(arrows);
-            user.getDeck().add(new Arrow());
+            Arrow arrow = new Arrow();
+            upgrade(arrow);
+            user.getDeck().add(arrow);
         }
     }
 
@@ -261,9 +265,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(babyD));
             removeCard(babyD);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(babyD);
-            user.getDeck().add(new BabyDragon());
+            BabyDragon babyDragon = new BabyDragon();
+            upgrade(babyDragon);
+            user.getDeck().add(babyDragon);
         }
     }
 
@@ -280,9 +286,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(barbarian));
             removeCard(barbarian);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(barbarian);
-            user.getDeck().add(new Barbarian());
+            Barbarian barbarian = new Barbarian();
+            upgrade(barbarian);
+            user.getDeck().add(barbarian);
         }
     }
 
@@ -299,9 +307,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(cannon));
             removeCard(cannon);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(cannon);
-            user.getDeck().add(new Cannon());
+            Cannon cannon = new Cannon();
+            upgrade(cannon);
+            user.getDeck().add(cannon);
         }
     }
 
@@ -318,9 +328,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(fireBall));
             removeCard(fireBall);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(fireBall);
-            user.getDeck().add(new FireBall());
+            FireBall fireBall = new FireBall();
+            upgrade(fireBall);
+            user.getDeck().add(fireBall);
         }
     }
 
@@ -337,9 +349,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(giant));
             removeCard(giant);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(giant);
-            user.getDeck().add(new Giant());
+            Giant giant= new Giant();
+            upgrade(giant);
+            user.getDeck().add(giant);
         }
     }
 
@@ -356,9 +370,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(inferno));
             removeCard(inferno);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(inferno);
-            user.getDeck().add(new InfernoTower());
+            InfernoTower infernoTower = new InfernoTower();
+            upgrade(infernoTower);
+            user.getDeck().add(infernoTower);
         }
     }
 
@@ -375,9 +391,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(peka));
             removeCard(peka);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(peka);
-            user.getDeck().add(new MiniPEKKA());
+            MiniPEKKA miniPEKKA = new MiniPEKKA();
+            upgrade(miniPEKKA);
+            user.getDeck().add(miniPEKKA);
         }
     }
 
@@ -394,9 +412,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(rage));
             removeCard(rage);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(rage);
-            user.getDeck().add(new Rage());
+            Rage rage = new Rage();
+            upgrade(rage);
+            user.getDeck().add(rage);
         }
     }
 
@@ -413,9 +433,11 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(val));
             removeCard(val);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(val);
-            user.getDeck().add(new Valkyrie());
+            Valkyrie valkyrie = new Valkyrie();
+            upgrade(valkyrie);
+            user.getDeck().add(valkyrie);
         }
     }
 
@@ -432,9 +454,41 @@ public class DeckPage implements GameMenController, Initializable {
             user.getDeck().remove(deck.indexOf(wizard));
             removeCard(wizard);
         }
-        else {
+        else if (user.getDeck().size() < 8) {
             addCard(wizard);
-            user.getDeck().add(new Wizard());
+            Wizard wizard = new Wizard();
+            upgrade(wizard);
+            user.getDeck().add(wizard);
+        }
+    }
+
+    private void upgrade (Card card){
+        int level = 0;
+        switch (Integer.parseInt(user.getPoints())){
+            case 300: {
+                level = 1;
+                break;
+            }
+            case 500: {
+                level = 2;
+                break;
+            }
+            case 900: {
+                level = 3;
+                break;
+            }
+            case 1700: {
+                level = 4;
+                break;
+            }
+            case 2500: {
+                level = 5;
+                break;
+            }
+        }
+
+        for (int i = 0 ; i < level ; i++) {
+            card.Upgrade();
         }
     }
 }

@@ -50,6 +50,24 @@ public class BabyDragon extends RangeTroop {
     }
 
     public void action (Action action){
-
+        Action enemy = action.inRange(Range);
+        if (enemy != null){
+            try {
+                Thread.sleep(1800);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            enemy.getHit(Damage);
+            action.updateStatus();
+            enemy.areaSplash(action.getStatus(),Damage);
+        }
+        else {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            action.move(action.getAirTroop(),action.getAirContent());
+        }
     }
 }

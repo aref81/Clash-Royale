@@ -47,6 +47,14 @@ public class InfernoTower extends Building{
     }
 
     public void action (Action action){
-
+        Action enemy = action.inRange((int) Math.floor(Range));
+        if (enemy != null){
+            try {
+                Thread.sleep(400);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            enemy.getHit(Damage);
+        }
     }
 }

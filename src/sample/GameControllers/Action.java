@@ -1,9 +1,7 @@
 package sample.GameControllers;
 
-import Classes.FightCard;
+import Classes.*;
 import javafx.scene.image.ImageView;
-
-import javax.swing.*;
 
 public class Action implements Runnable{
     private String side;
@@ -11,47 +9,90 @@ public class Action implements Runnable{
     private int hp;
     private FightCard card;
     private ImageView[][] mapView;
-    private String [][] map;
-    private String [][] mapStatus;
+    protected String [][] map;
+    private String [][] troop;
     private String [][] status;
     private Action [][] mapContent;
+    private String [][] airTroop;
+    private Action [][] airContent;
     private int row;
     private int column;
     private GameTime gameTime;
 
 
-    public Action(FightCard card, ImageView[][] mapView, String[][] map, String[][] mapStatus, Action[][] mapContent, int row, int column,GameTime gameTime) {
+    public Action(FightCard card, ImageView[][] mapView, String[][] map, String[][] troop, Action[][] mapContent, int row, int column, GameTime gameTime, String side, int hp, String[][] airTroop, Action[][] airContent) {
         this.card = card;
-        hp = card.getHP();
+        if (card == null){
+            this.hp = hp;
+        }
+        else {
+            this.hp = card.getHP();
+        }
         this.mapView = mapView;
         this.map = map;
-        this.mapStatus = mapStatus;
+        this.troop = troop;
         this.mapContent = mapContent;
         this.row = row;
         this.column = column;
         status = new String[32][18];
         this.gameTime = gameTime;
-        updateStatus();
+        this.side = side;
+        this.airTroop = airTroop;
+        this.airContent = airContent;
+        if (side.equals("Red")){
+            opponent = "Blue";
+        }
+        else {
+            opponent = "Red";
+        }
+        if (!(card == null)){
+            updateStatus();
+        }
+
     }
 
     @Override
     public void run() {
-        while ((hp > 0) && !gameTime.isEndGame()) {
-            card.action(this);
+        if (card instanceof Building){
+            Building building = (Building) card;
+            int deadLine = gameTime.getTime() - building.getLifeTime();
+
+            while ((hp > 0) && !gameTime.isEndGame() && gameTime.getTime() > deadLine) {
+                card.action(this);
+                updateStatus();
+            }
         }
+        else {
+            while ((hp > 0) && !gameTime.isEndGame()) {
+                card.action(this);
+                updateStatus();
+            }
+        }
+        die();
     }
 
-    private void updateStatus (){
+    private void die () {
+        troop[row][column] = "Empty";
+        mapContent[row][column] = null;
+        mapView[row][column].setImage(null);
+    }
+
+    public void updateStatus (){
         for (int i = 0; i < 32; i++){
             for (int j = 0 ; j < 18 ; j++){
-                if (map[i][j].contains("Red")){
+                if (map[i][j].contains(opponent)){
                     status[i][j] = "Target";
                 }
                 else {
                     status[i][j] = "Empty";
                 }
                 if (card.getTarget().equals("G") || card.getTarget().equals("AG")){
-                    if (mapStatus[i][j].equals("RedFilled")){
+                    if (troop[i][j].equals(opponent + "Filled")){
+                        status[i][j] = "Target";
+                    }
+                }
+                if (card.getTarget().equals("AG")){
+                    if (airTroop[i][j].equals(opponent + "Filled")){
                         status[i][j] = "Target";
                     }
                 }
@@ -60,59 +101,320 @@ public class Action implements Runnable{
     }
 
     public Action inRange (int range) {
-        for (int i = 0 ; i < range && (row + i < 32) && (row - i >= 0) && (column + i < 18) && (column - i >= 0) ; i++){
-            if (status[row + i][column].equals("Target")){
-                return mapContent[row + i][column];
+        for (int i = 1 ; i <= range && (row + i < 32) ; i++) {
+            if (status[row + i][column].equals("Target")) {
+                if (mapContent[row + i][column] != null) {
+                    return mapContent[row + i][column];
+                }
+                else if (airContent[row + i][column] != null){
+                    return airContent[row + i][column];
+                }
             }
-            else if (status[row - i][column].equals("Target")){
-                return mapContent[row - i][column];
+        }
+        for (int i = 1 ; i <= range && (row - i >= 0) ; i++){
+            if (status[row - i][column].equals("Target")) {
+                if (mapContent[row - i][column] != null) {
+                    return mapContent[row - i][column];
+                }
+                else if (airContent[row - i][column] != null){
+                    return airContent[row - i][column];
+                }
             }
-            else if (status[row][column + i].equals("Target")){
-                return mapContent[row][column + i];
+        }
+        for (int i = 1 ; i <= range && (column + i < 18) ; i++) {
+            if (status[row][column + i].equals("Target")) {
+                if (mapContent[row][column + i] != null) {
+                    return mapContent[row][column + i];
+                }
+                else if (airContent[row][column + i] != null){
+                    return airContent[row][column + i];
+                }
             }
-            else if (status[row][column - i].equals("Target")){
-                return mapContent[row][column - i];
+        }
+        for (int i = 1 ; i <= range && (column - i >= 0) ; i++) {
+            if (status[row][column - i].equals("Target")) {
+                if (mapContent[row][column - i] != null) {
+                    return mapContent[row][column - i];
+                }
+                else if (airContent[row][column - i] != null){
+                    return airContent[row][column - i];
+                }
             }
         }
         return null;
+    }
+
+    public void areaSplash (String[][] status1 , int hit) {
+        if ((row + 1 < 32) && status1[row + 1][column].equals("Target")){
+            mapContent[row + 1][column].getHit(hit);
+        }
+        if ((column + 1 < 18) && status1[row][column + 1].equals("Target")){
+            mapContent[row][column + 1].getHit(hit);
+        }
+        if ((row - 1 >= 0) && status1[row - 1][column].equals("Target")){
+            mapContent[row - 1][column].getHit(hit);
+        }
+        if ((column - 1 >= 0) && status1[row][column - 1].equals("Target")){
+            mapContent[row][column - 1].getHit(hit);
+        }
+        if ((row + 1 < 32) && (column + 1 < 18) && status1[row + 1][column + 1].equals("Target")){
+            mapContent[row + 1][column + 1].getHit(hit);
+        }
+        if ((row - 1 >= 0) && (column + 1 < 18) && status1[row - 1][column + 1].equals("Target")){
+            mapContent[row - 1][column + 1].getHit(hit);
+        }
+        if ((row + 1 < 32) && (column - 1 >= 0) && status1[row + 1][column - 1].equals("Target")){
+            mapContent[row + 1][column - 1].getHit(hit);
+        }
+        if ((row - 1 >= 0) && (column - 1 >= 0) && status1[row - 1][column - 1].equals("Target")){
+            mapContent[row - 1][column - 1].getHit(hit);
+        }
     }
 
     public void getHit(int hit){
         hp -= hit;
     }
 
-    public void move () {
+    public synchronized void move (String[][] troop,Action[][] mapContent) {
         if (!(map[row][column].equals("Way"))){
-            int left = 0;
-            int right = 0;
-            for (int i = 0; !(map[row][column + i].equals("Way")) && column + i < 18 ; i++){
-                right = i;
-            }
-            for (int i = 0; !(map[row][column - i].equals("Way")) && column - i >= 0 ; i++){
-                left = i;
-            }
-            mapStatus[row][column] = "Free";
-            mapContent[row][column] = null;
-            mapView[row][column].setImage(null);
-            if (left > right){
-                mapStatus[row][column + 1] = "BlueFilled";
-                mapContent[row][column + 1] = this;
-                mapView[row][column + 1].setImage(card.getGamePic());
+            if (row <= 29 && row >= 2) {
+                int left = 0;
+                int right = 0;
+                for (int i = 0; column + i < 18 && !(map[row][column + i].equals("Way")); i++) {
+                    right = i;
+                }
+                for (int i = 0; column - i >= 0 && !(map[row][column - i].equals("Way")); i++) {
+                    left = i;
+                }
+                troop[row][column] = "Empty";
+                mapContent[row][column] = null;
+                mapView[row][column].setImage(null);
+                if (left > right) {
+                    column++;
+                    if (troop[row][column].contains("Filled")) {
+                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                            row++;
+                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                            row--;
+                        } else {
+                            column--;
+                        }
+                    }
+                    if (side.equals("Blue")) {
+                        troop[row][column] = "BlueFilled";
+                    } else {
+                        troop[row][column] = "RedFilled";
+                    }
+                    mapContent[row][column] = this;
+                    mapView[row][column].setImage(card.getGamePic());
+                } else  if (right > left){
+                    column--;
+                    if (troop[row][column].contains("Filled")) {
+                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                            row++;
+                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                            row--;
+                        } else {
+                            column++;
+                        }
+                    }
+                    if (side.equals("Blue")) {
+                        troop[row][column] = "BlueFilled";
+                    } else {
+                        troop[row][column] = "RedFilled";
+                    }
+                }
+                else {
+                    if (column < 3){
+                        column++;
+                        if (troop[row][column].contains("Filled")) {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column--;
+                            }
+                        }
+                        if (side.equals("Blue")) {
+                            troop[row][column] = "BlueFilled";
+                        } else {
+                            troop[row][column] = "RedFilled";
+                        }
+                        mapContent[row][column] = this;
+                        mapView[row][column].setImage(card.getGamePic());
+                    }
+                    else {
+                        column--;
+                        if (troop[row][column].contains("Filled")) {
+                            if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                                row++;
+                            } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                                row--;
+                            } else {
+                                column++;
+                            }
+                        }
+                        if (side.equals("Blue")) {
+                            troop[row][column] = "BlueFilled";
+                        } else {
+                            troop[row][column] = "RedFilled";
+                        }
+                    }
+                }
             }
             else {
-                mapStatus[row][column - 1] = "BlueFilled";
-                mapContent[row][column - 1] = this;
-                mapView[row][column - 1].setImage(card.getGamePic());
+                if (row > 29){
+                    troop[row][column] = "Empty";
+                    mapContent[row][column] = null;
+                    mapView[row][column].setImage(null);
+
+                    row--;
+
+                    if (troop[row][column].contains("Filled")) {
+                        if (column + 1 < 18 && !(troop[row][column + 1].contains("Filled"))) {
+                            column++;
+                        } else if (column - 1 >= 0 && !(troop[row][column - 1].contains("Filled"))) {
+                            column--;
+                        } else {
+                            row++;
+                        }
+                    }
+
+                    if (side.equals("Blue")) {
+                        troop[row][column] = "BlueFilled";
+                    } else {
+                        troop[row][column] = "RedFilled";
+                    }
+                    mapContent[row][column] = this;
+                    mapView[row][column].setImage(card.getGamePic());
+                }
+                else if (row < 2){
+                    troop[row][column] = "Empty";
+                    mapContent[row][column] = null;
+                    mapView[row][column].setImage(null);
+
+                    row++;
+
+                    if (troop[row][column].contains("Filled")) {
+                        if (column + 1 < 18 && !(troop[row][column + 1].contains("Filled"))) {
+                            column++;
+                        } else if (column - 1 >= 0 && !(troop[row][column - 1].contains("Filled"))) {
+                            column--;
+                        } else {
+                            row--;
+                        }
+                    }
+
+                    if (side.equals("Blue")) {
+                        troop[row][column] = "BlueFilled";
+                    } else {
+                        troop[row][column] = "RedFilled";
+                    }
+                    mapContent[row][column] = this;
+                    mapView[row][column].setImage(card.getGamePic());
+                }
             }
         }
         else {
-            mapStatus[row][column] = "Free";
-            mapContent[row][column] = null;
-            mapView[row][column].setImage(null);
+            if (side.equals("Blue")) {
+                troop[row][column] = "Empty";
+                mapContent[row][column] = null;
+                mapView[row][column].setImage(null);
 
-            mapStatus[row + 1][column] = "BlueFilled";
-            mapContent[row + 1][column] = this;
-            mapView[row + 1][column].setImage(card.getGamePic());
+                row--;
+
+                if (map[row + 1][column - 1].equals("Way")){
+                    row++;
+                    column--;
+                    if (troop[row][column].contains("Filled")) {
+                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                            row++;
+                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                            row--;
+                        } else {
+                            column++;
+                        }
+                    }
+                }
+                else if (map[row + 1][column + 1].equals("Way")){
+                    row++;
+                    column++;
+                    if (troop[row][column].contains("Filled")) {
+                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                            row++;
+                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                            row--;
+                        } else {
+                            column--;
+                        }
+                    }
+                }
+                else {
+                    if (troop[row][column].contains("Filled")) {
+                        if (column + 1 < 18 && !(troop[row][column + 1].contains("Filled"))) {
+                            column++;
+                        } else if (column - 1 >= 0 && !(troop[row][column - 1].contains("Filled"))) {
+                            column--;
+                        } else {
+                            row++;
+                        }
+                    }
+                }
+
+                troop[row][column] = "BlueFilled";
+                mapContent[row][column] = this;
+                mapView[row][column].setImage(card.getGamePic());
+            }
+            else {
+                troop[row][column] = "Empty";
+                mapContent[row][column] = null;
+                mapView[row][column].setImage(null);
+
+                row++;
+
+                if (map[row + 1][column - 1].equals("Way")){
+                    row--;
+                    column--;
+                    if (troop[row][column].contains("Filled")) {
+                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                            row++;
+                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                            row--;
+                        } else {
+                            column++;
+                        }
+                    }
+                }
+                else if (map[row + 1][column + 1].equals("Way")){
+                    row--;
+                    column++;
+                    if (troop[row][column].contains("Filled")) {
+                        if (row + 1 < 32 && !(troop[row + 1][column].contains("Filled"))) {
+                            row++;
+                        } else if (row - 1 >= 0 && !(troop[row - 1][column].contains("Filled"))) {
+                            row--;
+                        } else {
+                            column--;
+                        }
+                    }
+                }
+                else {
+                    if (troop[row][column].contains("Filled")) {
+                        if (column + 1 < 18 && !(troop[row][column + 1].contains("Filled"))) {
+                            column++;
+                        } else if (column - 1 >= 0 && !(troop[row][column - 1].contains("Filled"))) {
+                            column--;
+                        } else {
+                            row--;
+                        }
+                    }
+                }
+
+                troop[row][column] = "RedFilled";
+                mapContent[row][column] = this;
+                mapView[row][column].setImage(card.getGamePic());
+            }
         }
     }
 
@@ -121,12 +423,8 @@ public class Action implements Runnable{
         return mapView;
     }
 
-    public String[][] getMap() {
-        return map;
-    }
-
-    public String[][] getMapStatus() {
-        return mapStatus;
+    public String[][] getTroop() {
+        return troop;
     }
 
     public int getRow() {
@@ -145,4 +443,35 @@ public class Action implements Runnable{
         this.row = row;
     }
 
+    public String[][] getStatus() {
+        return status;
+    }
+
+    public Action[][] getMapContent() {
+        return mapContent;
+    }
+
+    public GameTime getGameTime() {
+        return gameTime;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public String getSide() {
+        return side;
+    }
+
+    public String getOpponent() {
+        return opponent;
+    }
+
+    public Action[][] getAirContent() {
+        return airContent;
+    }
+
+    public String[][] getAirTroop() {
+        return airTroop;
+    }
 }

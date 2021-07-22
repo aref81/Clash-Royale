@@ -19,4 +19,8 @@ public abstract class Building extends FightCard{
         super(cardPic, gamePic , name);
     }
 
+
+    public int getLifeTime() {
+        return LifeTime;
+    }
 }
