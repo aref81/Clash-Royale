@@ -28,6 +28,10 @@ public class Archer extends RangeTroop {
         Damage = 33;
     }
 
+    /**
+     *
+     * upgrades archer
+     */
     public void Upgrade() {
         super.Upgrade();
         switch (Level) {
@@ -49,6 +53,12 @@ public class Archer extends RangeTroop {
         }
     }
 
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
     @Override
     public synchronized void action (Action action,boolean isRage){
         Action enemy = action.inRange(Range);

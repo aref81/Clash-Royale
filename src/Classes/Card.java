@@ -70,6 +70,12 @@ public abstract class Card {
         return Cost;
     }
 
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
     public void action (Action action,boolean isRage){
 
     }

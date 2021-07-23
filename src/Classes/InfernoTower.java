@@ -46,7 +46,13 @@ public class InfernoTower extends Building{
         }
     }
 
-    public void action (Action action , boolean isRage){
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
+    public synchronized void action (Action action , boolean isRage){
         Action enemy = action.inRange((int) Math.floor(Range));
         if (enemy != null){
             try {

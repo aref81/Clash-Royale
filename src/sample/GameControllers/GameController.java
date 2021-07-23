@@ -8,7 +8,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-
+import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,10 +18,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameController implements Initializable {
     private AtomicInteger elixir;
+    private AtomicInteger comElixir;
     private User user;
+    private AI ai;
     private final ImageView [][] mapView = new ImageView [32][18];
     private final String [][] map = new String [32][18];
-    private final String [][] mapStatus = new String[32][18];
+    private final String [][] mapStatusBlue = new String[32][18];
+    private final String [][] mapStatusRed = new String[32][18];
     private final Action [][] mapContent = new Action[32][18];
     private final String [][] troop = new String [32][18];
     private final ImageView [][] airFieldView = new ImageView [32][18];
@@ -47,9 +50,11 @@ public class GameController implements Initializable {
     private QueenTower blueLeftQueen;
     private QueenTower redRightQueen;
     private QueenTower redLeftQueen;
+    private Stage current;
 
-    public void setUser(User user) {
+    public void setUser(User user , boolean hard , Stage current) {
         this.user = user;
+        this.current = current;
         setFirstCards();
         updateDeckView();
         upgradeTowers(blueKing);
@@ -59,26 +64,37 @@ public class GameController implements Initializable {
         upgradeTowers(redLeftQueen);
         upgradeTowers(redRightQueen);
 
+        if (hard) {
+            this.ai = new AdvancedAI(comElixir, this, mapStatusRed, map, troop, airTroop);
+        }
+        else {
+            this.ai = new SimpleAI(comElixir,this,mapStatusRed,map);
+        }
+
         pool.execute(gameTime);
+        pool.execute(ai);
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ElBar.setText("");
         elixir = new AtomicInteger(0);
+        comElixir = new AtomicInteger(0);
 
-        gameTime = new GameTime(ElBar,timer,elixir);
-        blueKing = new KingTower(null,mapView,map,troop,mapContent,27,7,gameTime,"Blue" , KingBlue,mapStatus,airTroop,airContent,spellState);
-        redKing = new KingTower(null,mapView,map,troop,mapContent,0,7,gameTime,"Red" , KingRed,mapStatus,airTroop,airContent,spellState);
-        blueRightQueen = new QueenTower(null,mapView,map,troop,mapContent,24,13,gameTime,"Blue" , PrincessBlueRight,mapStatus,blueKing,airTroop,airContent,spellState);
-        blueLeftQueen = new QueenTower(null,mapView,map,troop,mapContent,24,2,gameTime,"Blue", PrincessBlueLeft,mapStatus,blueKing,airTroop,airContent,spellState);
-        redRightQueen = new QueenTower(null,mapView,map,troop,mapContent,5,13,gameTime,"Red", PrincessRedRight,mapStatus,redKing,airTroop,airContent,spellState);
-         redLeftQueen = new QueenTower(null,mapView,map,troop,mapContent,5,2,gameTime,"Red",PrincessRedLeft,mapStatus,redKing,airTroop,airContent,spellState);
+        gameTime = new GameTime(ElBar,timer,elixir,comElixir,this);
+        blueKing = new KingTower(null,mapView,map,troop,mapContent,27,7,gameTime,"Blue" , KingBlue,mapStatusRed,airTroop,airContent,spellState);
+        redKing = new KingTower(null,mapView,map,troop,mapContent,0,7,gameTime,"Red" , KingRed,mapStatusBlue,airTroop,airContent,spellState);
+        blueRightQueen = new QueenTower(null,mapView,map,troop,mapContent,24,13,gameTime,"Blue" , PrincessBlueRight,mapStatusRed,blueKing,airTroop,airContent,spellState);
+        blueLeftQueen = new QueenTower(null,mapView,map,troop,mapContent,24,2,gameTime,"Blue", PrincessBlueLeft,mapStatusRed,blueKing,airTroop,airContent,spellState);
+        redRightQueen = new QueenTower(null,mapView,map,troop,mapContent,5,13,gameTime,"Red", PrincessRedRight,mapStatusBlue,redKing,airTroop,airContent,spellState);
+         redLeftQueen = new QueenTower(null,mapView,map,troop,mapContent,5,2,gameTime,"Red",PrincessRedLeft,mapStatusBlue,redKing,airTroop,airContent,spellState);
 
         for (int i = 0; i < 16;i++){
             for (int j = 0; j < 18;j++){
                 map[i][j] = "Field";
-                mapStatus [i][j] = "Blocked";
+                mapStatusBlue [i][j] = "Blocked";
+                mapStatusRed [i][j] = "Free";
                 troop[i][j] = "Empty";
                 airTroop[i][j] = "Empty";
                 spellState[i][j] = "NoSpell";
@@ -87,7 +103,8 @@ public class GameController implements Initializable {
         for (int i = 16; i < 32;i++){
             for (int j = 0; j < 18;j++){
                 map[i][j] = "Field";
-                mapStatus [i][j] = "Free";
+                mapStatusBlue [i][j] = "Free";
+                mapStatusRed [i][j] = "Blocked";
                 troop[i][j] = "Empty";
                 airTroop[i][j] = "Empty";
                 spellState[i][j] = "NoSpell";
@@ -132,7 +149,7 @@ public class GameController implements Initializable {
                 map[i][j] = "BluePrincess";
                 mapContent[i][j] = blueLeftQueen;
                 map[i][j + 11] = "BluePrincess";
-                mapContent[i][j +11] = blueRightQueen;
+                mapContent[i][j + 11] = blueRightQueen;
             }
         }
 
@@ -335,110 +352,118 @@ public class GameController implements Initializable {
             if (gridPane.getId().equals("GridBlueAir") || gridPane.getId().equals("GridRedAir")) {
                 int row = (gridPane.getId().equals("GridRedAir")) ? getRow(event.getY()) : getRow(event.getY()) + 16;
                 int col = getColumn(event.getX());
-                int xExtend = (col == 17) ? -1 : 1;
-                int yExtend = (row == 15 || row == 31) ? -1 : 1;
-                if (!(cards[index] instanceof Spell)) {
-                    FightCard card = (FightCard) cards[index];
-                    if (cards[index] instanceof BabyDragon){
-                        airTroop[row][col] = "BlueFilled";
-                        Action action = new Action(card,airFieldView,map,troop, mapContent, row, col, gameTime, "Blue", 0,airTroop,airContent,spellState);
-                        airContent[row][col] = action;
-                        airFieldView[row][col].setImage(cards[index].getGamePic());
-                        ejectCard(index);
-                        pool.execute(action);
-                    }
-                    else {
-                        if (mapStatus[row][col].equals("Free")) {
-                            if (troop[row][col].equals("Empty")) {
-                                if (cards[index] instanceof Barbarian) {
-                                    if (mapStatus[row + yExtend][col] == "Free" && mapStatus[row][col + xExtend] == "Free" && mapStatus[row + yExtend][col + xExtend] == "Free") {
-                                        if (troop[row + yExtend][col] == "Empty" && troop[row][col + xExtend] == "Empty" && troop[row + yExtend][col + xExtend] == "Empty") {
-                                            troop[row][col] = "BlueFilled";
-                                            Action action1 = new Action(card, mapView, map, troop, mapContent, row, col, gameTime, "Blue", 0,airTroop,airContent,spellState);
-                                            mapContent[row][col] = action1;
-                                            mapView[row][col].setImage(cards[index].getGamePic());
-                                            troop[row + yExtend][col] = "BlueFilled";
-                                            Action action2 = new Action(card, mapView, map, troop, mapContent, row + yExtend, col, gameTime, "Blue", 0,airTroop,airContent,spellState);
-                                            mapContent[row + yExtend][col] = action2;
-                                            mapView[row + yExtend][col].setImage(cards[index].getGamePic());
-                                            troop[row][col + xExtend] = "BlueFilled";
-                                            Action action3 = new Action(card, mapView, map, troop, mapContent, row, col + xExtend, gameTime, "Blue", 0,airTroop,airContent,spellState);
-                                            mapContent[row][col + xExtend] = action3;
-                                            mapView[row][col + xExtend].setImage(cards[index].getGamePic());
-                                            troop[row + yExtend][col + xExtend] = "BlueFilled";
-                                            Action action4 = new Action(card, mapView, map, troop, mapContent, row + yExtend, col + xExtend, gameTime, "Blue", 0,airTroop,airContent,spellState);
-                                            mapContent[row + yExtend][col + xExtend] = action4;
-                                            mapView[row + yExtend][col + xExtend].setImage(card.getGamePic());
-                                            ejectCard(index);
-                                            pool.execute(action1);
-                                            pool.execute(action2);
-                                            pool.execute(action3);
-                                            pool.execute(action4);
-                                        }
-                                    }
-                                } else if (cards[index] instanceof Archer) {
-                                    if (mapStatus[row][col + xExtend] == "Free") {
-                                        if (troop[row][col + xExtend] == "Empty") {
-                                            troop[row][col] = "BlueFilled";
-                                            Action action1 = new Action(card, mapView, map, troop, mapContent, row, col, gameTime, "Blue", 0,airTroop,airContent,spellState);
-                                            mapContent[row][col] = action1;
-                                            mapView[row][col].setImage(cards[index].getGamePic());
-                                            troop[row][col + xExtend] = "BlueFilled";
-                                            Action action2 = new Action(card, mapView, map, troop, mapContent, row, col + xExtend, gameTime, "Blue", 0,airTroop,airContent,spellState);
-                                            mapContent[row][col + xExtend] = action2;
-                                            mapView[row][col + xExtend].setImage(cards[index].getGamePic());
-                                            ejectCard(index);
-                                            pool.execute(action1);
-                                            pool.execute(action2);
-                                        }
-                                    }
-                                } else {
-                                    troop[row][col] = "BlueFilled";
-                                    Action action = new Action(card, mapView, map, troop, mapContent, row, col, gameTime, "Blue", 0,airTroop,airContent,spellState);
-                                    mapContent[row][col] = action;
-                                    mapView[row][col].setImage(cards[index].getGamePic());
-                                    ejectCard(index);
-                                    pool.execute(action);
-                                }
-                            }
-                        }
-                    }
-                }
-                else {
-                    if (cards[index] instanceof DamageSpell){
-                        DamageSpell damageSpell = (DamageSpell) cards[index];
-                        ejectCard(index);
-                        damageSpell.attack(row,col,troop,map,mapContent,mapView,"Blue");
-                    }
-                    else {
-                        try {
-                            Rage rage = new Rage(row,col,spellState,spellView,"Blue");
-                            ejectCard(index);
-                            pool.execute(rage);
-                        }
-                        catch (FileNotFoundException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }
-//            else {
-//                if (gridPane.getId().equals("BridgeRight")) {
-//                    if (bridgeRightStatus.equals("Free")) {
-//                        bridgeRightStatus = "Filled";
-//                        bridgeRightView.setImage(cards[index].getGamePic());
-//                        ejectCard(index);
-//                    }
-//                }
-//                if (gridPane.getId().equals("BridgeLeft")) {
-//                    if (bridgeLeftStatus.equals("Free")) {
-//                        bridgeLeftStatus = "Filled";
-//                        bridgeLeftView.setImage(cards[index].getGamePic());
-//                        ejectCard(index);
-//                    }
-//                }
-//            }
+                insertCard(index,row,col,"Blue",mapStatusBlue);
             }
         }
+    }
+
+    public boolean insertCard (int index,int row,int col,String side,String[][] mapStatus) {
+        int xExtend = (col == 17) ? -1 : 1;
+        int yExtend = (row == 15 || row == 31) ? -1 : 1;
+        if (!(cards[index] instanceof Spell)) {
+            FightCard card = (FightCard) cards[index];
+            if (cards[index] instanceof BabyDragon){
+                airTroop[row][col] = side + "Filled";
+                Action action = new Action(card,airFieldView,map,troop, mapContent, row, col, gameTime, side, 0,airTroop,airContent,spellState);
+                airContent[row][col] = action;
+                airFieldView[row][col].setImage(cards[index].getGamePic());
+                if (side.equals("Blue")) {
+                    ejectCard(index);
+                }
+                pool.execute(action);
+                return true;
+            }
+            else {
+                if (mapStatus[row][col].equals("Free")) {
+                    if (troop[row][col].equals("Empty")) {
+                        if (cards[index] instanceof Barbarian) {
+                            if (mapStatus[row + yExtend][col] == "Free" && mapStatus[row][col + xExtend] == "Free" && mapStatus[row + yExtend][col + xExtend] == "Free") {
+                                if (troop[row + yExtend][col] == "Empty" && troop[row][col + xExtend] == "Empty" && troop[row + yExtend][col + xExtend] == "Empty") {
+                                    troop[row][col] = side + "Filled";
+                                    Action action1 = new Action(card, mapView, map, troop, mapContent, row, col, gameTime, side, 0,airTroop,airContent,spellState);
+                                    mapContent[row][col] = action1;
+                                    mapView[row][col].setImage(cards[index].getGamePic());
+                                    troop[row + yExtend][col] = side + "Filled";
+                                    Action action2 = new Action(card, mapView, map, troop, mapContent, row + yExtend, col, gameTime, side, 0,airTroop,airContent,spellState);
+                                    mapContent[row + yExtend][col] = action2;
+                                    mapView[row + yExtend][col].setImage(cards[index].getGamePic());
+                                    troop[row][col + xExtend] = side + "Filled";
+                                    Action action3 = new Action(card, mapView, map, troop, mapContent, row, col + xExtend, gameTime, side, 0,airTroop,airContent,spellState);
+                                    mapContent[row][col + xExtend] = action3;
+                                    mapView[row][col + xExtend].setImage(cards[index].getGamePic());
+                                    troop[row + yExtend][col + xExtend] = side + "Filled";
+                                    Action action4 = new Action(card, mapView, map, troop, mapContent, row + yExtend, col + xExtend, gameTime, side, 0,airTroop,airContent,spellState);
+                                    mapContent[row + yExtend][col + xExtend] = action4;
+                                    mapView[row + yExtend][col + xExtend].setImage(card.getGamePic());
+                                    if (side.equals("Blue")) {
+                                        ejectCard(index);
+                                    }
+                                    pool.execute(action1);
+                                    pool.execute(action2);
+                                    pool.execute(action3);
+                                    pool.execute(action4);
+                                    return true;
+                                }
+                            }
+                        } else if (cards[index] instanceof Archer) {
+                            if (mapStatus[row][col + xExtend] == "Free") {
+                                if (troop[row][col + xExtend] == "Empty") {
+                                    troop[row][col] = side + "Filled";
+                                    Action action1 = new Action(card, mapView, map, troop, mapContent, row, col, gameTime, side, 0,airTroop,airContent,spellState);
+                                    mapContent[row][col] = action1;
+                                    mapView[row][col].setImage(cards[index].getGamePic());
+                                    troop[row][col + xExtend] = side + "Filled";
+                                    Action action2 = new Action(card, mapView, map, troop, mapContent, row, col + xExtend, gameTime, side + "Filled", 0,airTroop,airContent,spellState);
+                                    mapContent[row][col + xExtend] = action2;
+                                    mapView[row][col + xExtend].setImage(cards[index].getGamePic());
+                                    if (side.equals("Blue")) {
+                                        ejectCard(index);
+                                    }
+                                    pool.execute(action1);
+                                    pool.execute(action2);
+                                    return true;
+                                }
+                            }
+                        } else {
+                            troop[row][col] = side + "Filled";
+                            Action action = new Action(card, mapView, map, troop, mapContent, row, col, gameTime, side, 0,airTroop,airContent,spellState);
+                            mapContent[row][col] = action;
+                            mapView[row][col].setImage(cards[index].getGamePic());
+                            if (side.equals("Blue")) {
+                                ejectCard(index);
+                            }
+                            pool.execute(action);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            if (cards[index] instanceof DamageSpell){
+                DamageSpell damageSpell = (DamageSpell) cards[index];
+                if (side.equals("Blue")) {
+                    ejectCard(index);
+                }
+                damageSpell.attack(row,col,troop,map,mapContent,mapView,side,spellView);
+                return true;
+            }
+            else {
+                try {
+                    Rage rage = new Rage(row,col,spellState,spellView,side);
+                    if (side.equals("Blue")) {
+                        ejectCard(index);
+                    }
+                    pool.execute(rage);
+                    return true;
+                }
+                catch (FileNotFoundException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return false;
     }
 
     private void ejectCard (int index){
@@ -450,5 +475,40 @@ public class GameController implements Initializable {
 
     public GameTime getGameTime() {
         return gameTime;
+    }
+
+    public String drawCase () {
+        int blue = 0;
+        blue += blueKing.getHPNum();
+        if (!blueRightQueen.isDestroyed()){
+            blue += blueRightQueen.getHPNum();
+        }
+        if (!blueLeftQueen.isDestroyed()){
+            blue += blueLeftQueen.getHPNum();
+        }
+
+        int red = 0;
+        red += redKing.getHPNum();
+        if (!redRightQueen.isDestroyed()){
+            red += redRightQueen.getHPNum();
+        }
+        if (!redLeftQueen.isDestroyed()){
+            red += redLeftQueen.getHPNum();
+        }
+
+        if (blue > red){
+            return "Blue";
+        }
+        else {
+            return "Red";
+        }
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Stage getCurrent() {
+        return current;
     }
 }

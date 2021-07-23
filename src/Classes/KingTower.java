@@ -52,6 +52,10 @@ public class KingTower extends Tower {
         }
     }
 
+    /**
+     * implements the action of card
+     *
+     */
     @Override
     public void run() {
         while (getHp() > 0 && !(getGameTime().isEndGame())){
@@ -86,6 +90,11 @@ public class KingTower extends Tower {
         die();
     }
 
+    /**
+     * checks if a troop is in rage
+     *
+     * @return true if it is
+     */
     private boolean isRage () {
         int rowUp;
         int rowDown;
@@ -120,26 +129,42 @@ public class KingTower extends Tower {
         return false;
     }
 
+    /**
+     * the destruction handling
+     *
+     */
     private void die () {
         imageView.setImage(null);
         setDestroyed(true);
-        getGameTime().setEndGame(true);
+        getGameTime().setEndGame(true,getOpponent());
     }
 
+    /**
+     * activates the king tower
+     *
+     * @param active the new mode
+     */
     public void setActive(boolean active) {
         isActive = active;
-        try {
-            if (getSide().equals("Blue")) {
-                imageView.setImage(new Image(new FileInputStream("src/sample/Game/Towers/King Tower Blue Active.png")));
+        if (imageView.getImage() != null) {
+            try {
+                if (getSide().equals("Blue")) {
+                    imageView.setImage(new Image(new FileInputStream("src/sample/Game/Towers/King Tower Blue Active.png")));
+                } else {
+                    imageView.setImage(new Image(new FileInputStream("src/sample/Game/Towers/King Tower Red Active.png")));
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-            else {
-                imageView.setImage(new Image(new FileInputStream("src/sample/Game/Towers/King Tower Red Active.png")));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
+    /**
+     * searches and returns the in range troops
+     *
+     * @param range the range
+     * @return the in range troop
+     */
     public Action inRange (int range) {
         int rowUp;
         int rowDown;

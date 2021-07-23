@@ -48,6 +48,10 @@ public class QueenTower extends Tower{
         }
     }
 
+    /**
+     * implements the action of card
+     *
+     */
     @Override
     public void run() {
         updateStatus();
@@ -74,6 +78,11 @@ public class QueenTower extends Tower{
         die();
     }
 
+    /**
+     * checks if a troop is in rage
+     *
+     * @return true if it is
+     */
     private boolean isRage () {
         int rowUp;
         int rowDown;
@@ -108,6 +117,10 @@ public class QueenTower extends Tower{
         return false;
     }
 
+    /**
+     * the destruction handling
+     *
+     */
     private void die () {
         imageView.setImage(null);
         king.setActive(true);
@@ -150,6 +163,7 @@ public class QueenTower extends Tower{
             }
         }
         if (imageView.getId().equals("PrincessRedRight")) {
+            getGameTime().setBlue(getGameTime().getBlue() + 1);
             for (int i = 11; i < 16; i++) {
                 for (int j = 9; j < 18; j++) {
                     mapStatus[i][j] = "Free";
@@ -157,7 +171,25 @@ public class QueenTower extends Tower{
             }
         }
         else if (imageView.getId().equals("PrincessRedLeft")){
+            getGameTime().setBlue(getGameTime().getBlue() + 1);
             for (int i = 11; i < 16; i++) {
+                for (int j = 0; j < 9; j++) {
+                    mapStatus[i][j] = "Free";
+                }
+            }
+        }
+
+        if (imageView.getId().equals("PrincessBlueRight")) {
+            getGameTime().setRed(getGameTime().getRed() + 1);
+            for (int i = 16; i < 21; i++) {
+                for (int j = 9; j < 18; j++) {
+                    mapStatus[i][j] = "Free";
+                }
+            }
+        }
+        else if (imageView.getId().equals("PrincessBlueLeft")){
+            getGameTime().setRed(getGameTime().getRed() + 1);
+            for (int i = 16; i < 21; i++) {
                 for (int j = 0; j < 9; j++) {
                     mapStatus[i][j] = "Free";
                 }
@@ -166,6 +198,12 @@ public class QueenTower extends Tower{
         setDestroyed(true);
     }
 
+    /**
+     * searches and returns the in range troops
+     *
+     * @param range the range
+     * @return the in range troop
+     */
     public Action inRange (int range) {
         int rowUp;
         int rowDown;

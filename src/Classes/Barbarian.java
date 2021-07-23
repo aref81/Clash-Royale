@@ -27,6 +27,10 @@ public class Barbarian extends Troop{
         HP = 300;
         Damage = 75;
     }
+
+    /**
+     * upgrades barbarian
+     */
     public void Upgrade(){
         super.Upgrade();
         switch (Level){
@@ -48,6 +52,12 @@ public class Barbarian extends Troop{
         }
     }
 
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
     public synchronized void action (Action action,boolean isRage){
         Action enemy = action.inRange(1);
         if (enemy != null){

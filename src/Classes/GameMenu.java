@@ -16,7 +16,7 @@ import java.io.IOException;
  * @author Mohammad Hosein Aref
  * @version 1.0
  */
-public class GameMenu {
+public class GameMenu implements Runnable{
     private Stage stage;
     private User user;
 
@@ -53,8 +53,15 @@ public class GameMenu {
         stage.show();
     }
 
-    public static void startCampMatch (User user,Stage stage) {
-        TrainingCampMatch match = new TrainingCampMatch(stage,user);
+    /**
+     * starts a camp match
+     *
+     * @param user the user
+     * @param stage the primary stage
+     * @param hard is it hard or not
+     */
+    public static void startCampMatch (User user,Stage stage,boolean hard) {
+        TrainingCampMatch match = new TrainingCampMatch(stage,user,hard);
         match.run();
     }
 }

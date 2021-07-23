@@ -27,6 +27,10 @@ public class BabyDragon extends RangeTroop {
         Damage = 100;
     }
 
+    /**
+     *
+     * upgrades baby dragon
+     */
     @Override
     public void Upgrade() {
         super.Upgrade();
@@ -49,7 +53,13 @@ public class BabyDragon extends RangeTroop {
         }
     }
 
-    public void action (Action action,boolean isRage){
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
+    public synchronized void action (Action action,boolean isRage){
         Action enemy = action.inRange(Range);
         if (enemy != null){
             try {

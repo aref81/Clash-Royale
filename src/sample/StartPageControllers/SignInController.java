@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -50,10 +51,17 @@ public class SignInController {
         else {
             boolean found = false;
             File file = new File("./Saves/Users.xml");
-            if (file.exists()){
+            if (file.exists()) {
                 try (Scanner in = new Scanner(new FileInputStream(file))) {
                     while (in.hasNextLine()) {
-                        User user= new User(in.nextLine(),in.nextLine(),in.nextLine());
+                        String userName = in.nextLine();
+                        String passWord = in.nextLine();
+                        String points = in.nextLine();
+                        ArrayList<String> deckStr = new ArrayList<>(8);
+                        for (int i = 0 ; i < 8;i++){
+                            deckStr.add(in.nextLine());
+                        }
+                        User user = new User(userName,passWord,points,User.genDeck(deckStr));
                         if (user.getUserName().equals(UserName.getText()) && Password.getText().equals(user.getPassword())) {
                             Stage current = ((Stage)(((Button)event.getSource()).getScene().getWindow()));
                             Main.startGameMenu(user,current);

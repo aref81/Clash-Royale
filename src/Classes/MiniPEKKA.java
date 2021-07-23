@@ -49,7 +49,13 @@ public class MiniPEKKA extends Troop{
         }
     }
 
-    public void action (Action action , boolean isRage){
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
+    public synchronized void action (Action action , boolean isRage){
         Action enemy = action.inRange(1);
         if (enemy != null){
             try {

@@ -150,30 +150,32 @@ public class Action implements Runnable{
         return null;
     }
 
-    public void areaSplash (String[][] status1 , int hit) {
-        if ((row + 1 < 32) && status1[row + 1][column].equals("Target")){
-            mapContent[row + 1][column].getHit(hit);
-        }
-        if ((column + 1 < 18) && status1[row][column + 1].equals("Target")){
-            mapContent[row][column + 1].getHit(hit);
-        }
-        if ((row - 1 >= 0) && status1[row - 1][column].equals("Target")){
-            mapContent[row - 1][column].getHit(hit);
-        }
-        if ((column - 1 >= 0) && status1[row][column - 1].equals("Target")){
-            mapContent[row][column - 1].getHit(hit);
-        }
-        if ((row + 1 < 32) && (column + 1 < 18) && status1[row + 1][column + 1].equals("Target")){
-            mapContent[row + 1][column + 1].getHit(hit);
-        }
-        if ((row - 1 >= 0) && (column + 1 < 18) && status1[row - 1][column + 1].equals("Target")){
-            mapContent[row - 1][column + 1].getHit(hit);
-        }
-        if ((row + 1 < 32) && (column - 1 >= 0) && status1[row + 1][column - 1].equals("Target")){
-            mapContent[row + 1][column - 1].getHit(hit);
-        }
-        if ((row - 1 >= 0) && (column - 1 >= 0) && status1[row - 1][column - 1].equals("Target")){
-            mapContent[row - 1][column - 1].getHit(hit);
+    public synchronized void areaSplash (String[][] status1 , int hit) {
+        if (row >= 0 && column >= 0) {
+            if ((row + 1 < 32) && status1[row + 1][column].equals("Target")) {
+                mapContent[row + 1][column].getHit(hit);
+            }
+            if ((column + 1 < 18) && status1[row][column + 1].equals("Target")) {
+                mapContent[row][column + 1].getHit(hit);
+            }
+            if ((row - 1 >= 0) && status1[row - 1][column].equals("Target")) {
+                mapContent[row - 1][column].getHit(hit);
+            }
+            if ((column - 1 >= 0) && status1[row][column - 1].equals("Target")) {
+                mapContent[row][column - 1].getHit(hit);
+            }
+            if ((row + 1 < 32) && (column + 1 < 18) && status1[row + 1][column + 1].equals("Target")) {
+                mapContent[row + 1][column + 1].getHit(hit);
+            }
+            if ((row - 1 >= 0) && (column + 1 < 18) && status1[row - 1][column + 1].equals("Target")) {
+                mapContent[row - 1][column + 1].getHit(hit);
+            }
+            if ((row + 1 < 32) && (column - 1 >= 0) && status1[row + 1][column - 1].equals("Target")) {
+                mapContent[row + 1][column - 1].getHit(hit);
+            }
+            if ((row - 1 >= 0) && (column - 1 >= 0) && status1[row - 1][column - 1].equals("Target")) {
+                mapContent[row - 1][column - 1].getHit(hit);
+            }
         }
     }
 

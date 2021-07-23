@@ -50,6 +50,12 @@ public class Wizard extends RangeTroop{
         }
     }
 
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
     public synchronized void action (Action action , boolean isRage){
         Action enemy = action.inRange(Range);
         if (enemy != null){

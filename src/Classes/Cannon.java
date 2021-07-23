@@ -24,6 +24,11 @@ public class Cannon extends Building{
         Damage = 60;
         HP = 380;
     }
+
+    /**
+     *
+     * upgrades cannon
+     */
     @Override
     public void Upgrade() {
         super.Upgrade();
@@ -46,7 +51,13 @@ public class Cannon extends Building{
         }
     }
 
-    public void action (Action action , boolean isRage){
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
+    public synchronized void action (Action action , boolean isRage){
         Action enemy = action.inRange((int) Math.floor(Range));
         if (enemy != null){
             try {

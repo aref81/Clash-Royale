@@ -2,6 +2,7 @@ package Classes;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import sample.GameControllers.Action;
 
 /**
@@ -13,11 +14,23 @@ public abstract class DamageSpell extends Spell {
      */
     protected int AreaDamage;
 
-    public DamageSpell(Image cardPic, Image gamePic , String name) {
+    public DamageSpell(Image cardPic, Image gamePic, String name) {
         super(cardPic, gamePic , name);
     }
 
-    public void attack (int row , int column , String[][] troop, String[][] map, Action[][] mapContent , ImageView[][] mapView, String side) {
+    /**
+     * implements the action of spell
+     *
+     * @param row intended row
+     * @param column intended column
+     * @param troop the troop map of game
+     * @param map the map of game
+     * @param mapContent the content of map
+     * @param mapView the image view of map
+     * @param side the side of spell
+     * @param spellView the spell view panes
+     */
+    public synchronized void attack (int row , int column , String[][] troop, String[][] map, Action[][] mapContent , ImageView[][] mapView, String side, Pane[][] spellView) {
         String opponent;
         if (side.equals("Red")){
             opponent = "Blue";
@@ -44,11 +57,15 @@ public abstract class DamageSpell extends Spell {
             colFin = 17;
         }
 
-        String[][] status = new String[32][18];
+        String style = (Radius == 2.5)?("-fx-background-color: rgb(186,133,19,0.3)"):("-fx-background-color: rgb(217,30,30,0.3)");
 
-        mapView[rowStart][colStart].setFitHeight(2 * Radius * (double) 226/16);
-        mapView[rowStart][colStart].setFitWidth(2 * Radius * (double) 359/18);
-        mapView[rowStart][colStart].setImage(getGamePic());
+        for (int i = rowStart ; i <= rowFin ; i++){
+            for (int j = colStart ; j <= colFin ; j++){
+                spellView[i][j].setStyle(style);
+            }
+        }
+
+        String[][] status = new String[32][18];
 
         for (int i = 0; i < 32; i++){
             for (int j = 0 ; j < 18 ; j++){
@@ -70,6 +87,7 @@ public abstract class DamageSpell extends Spell {
                 if (status[i][j].equals("Target")){
                     mapContent[i][j].getHit(AreaDamage);
                 }
+                spellView[i][j].setStyle("-fx-background-color: transparent");
             }
         }
 

@@ -1,8 +1,6 @@
 package Classes;
 
 import javafx.scene.image.Image;
-import sample.GameControllers.Action;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -21,6 +19,10 @@ public class Arrow extends DamageSpell{
         Level = 1;
     }
 
+    /**
+     *
+     * upgrades arrow
+     */
     @Override
     public void Upgrade() {
         super.Upgrade();
@@ -38,9 +40,5 @@ public class Arrow extends DamageSpell{
                 AreaDamage = 210;
                 break;
         }
-    }
-
-    public void action (Action action){
-
     }
 }

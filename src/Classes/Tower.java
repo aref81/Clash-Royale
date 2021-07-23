@@ -65,11 +65,28 @@ public abstract class Tower extends Action {
         }
     }
 
+    /**
+     *
+     * @return the status of tower
+     */
     public boolean isDestroyed() {
         return destroyed;
     }
 
+    /**
+     *
+     * @param destroyed new status of tower
+     */
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
+    }
+
+    /**
+     *
+     *
+     * @return the hp
+     */
+    public int getHPNum() {
+        return HP;
     }
 }

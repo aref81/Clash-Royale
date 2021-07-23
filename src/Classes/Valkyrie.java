@@ -50,6 +50,12 @@ public class Valkyrie extends Troop{
         }
     }
 
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
     public synchronized void action (Action action , boolean isRage){
         Action enemy = action.inRange(1);
         if (enemy != null){

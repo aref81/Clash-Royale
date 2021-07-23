@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="360.0" style="-fx-background-color: Transparent;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GameMenuControllers.TrainingCampHnadler">
+    <children>
+        <ImageView fitHeight="255.0" fitWidth="362.0">
+            <image>
+                <Image url="@BattlePage.png" />
+            </image>
+        </ImageView>
+        <VBox prefHeight="286.0" prefWidth="360.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="95.3" prefWidth="360.0">
+                    <children>
+                        <ImageView fitHeight="94.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@toppng.com-3c-nikotronik-clash-royale-league-4-339x381.png" />
+                            </image>
+                        </ImageView>
+                  <Label text="Training Match" textFill="WHITE">
+                     <font>
+                        <Font name="Supercell-Magic Regular" size="24.0" />
+                     </font>
+                  </Label>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="95.3" prefWidth="360.0">
+                    <children>
+                        <ImageView fitHeight="96.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@League1.png" />
+                            </image>
+                        </ImageView>
+                        <Button mnemonicParsing="false" onAction="#easy" prefHeight="60.0" prefWidth="267.0" styleClass="BattleMenuButtons" stylesheets="@MainMenu.css" text="easy" textAlignment="CENTER" textFill="WHITE">
+                            <font>
+                                <Font name="Supercell-Magic Regular" size="21.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="95.3" prefWidth="360.0">
+                    <children>
+                        <ImageView fitHeight="93.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@pngaaa.com-4879247.png" />
+                            </image>
+                        </ImageView>
+                        <Button mnemonicParsing="false" onAction="#Hard" prefHeight="60.0" prefWidth="267.0" styleClass="BattleMenuButtons" stylesheets="@MainMenu.css" text="Hard" textAlignment="CENTER" textFill="WHITE">
+                            <font>
+                                <Font name="Supercell-Magic Regular" size="21.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</VBox>

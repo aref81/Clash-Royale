@@ -159,10 +159,17 @@ public class MainMenu implements Initializable {
         keySelect(ab1);
         fade.play();
         try {
+            if (db1.getId().equals("deck") || db2.getId().equals("deck") || db3.getId().equals("deck")){
+                User.print(user);
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
             fxml = loader.load();
             GameMenController controller = loader.getController();
             controller.setUser(user);
+            if (controller instanceof BattleMenuPage){
+                BattleMenuPage battleMenuPage = (BattleMenuPage) controller;
+                battleMenuPage.setVbox(vbox);
+            }
             vbox.getChildren().removeAll();
             vbox.getChildren().setAll(fxml);
         } catch (IOException e) {

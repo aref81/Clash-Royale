@@ -50,6 +50,12 @@ public class Giant extends Troop{
         }
     }
 
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
     public synchronized void action (Action action,boolean isRage){
         Action opponent = action.inRange(1);
         if (opponent != null){

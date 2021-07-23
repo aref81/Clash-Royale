@@ -2,12 +2,15 @@ package sample.GameMenuControllers;
 
 import Classes.GameMenu;
 import Classes.User;
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import javax.swing.*;
+import java.io.IOException;
 
 /**
  * controller class for battle menu page in main menu
@@ -19,6 +22,7 @@ import javax.swing.*;
 public class BattleMenuPage implements GameMenController {
 
     private User user;
+    private VBox vbox;
 
     /**
      * set users field
@@ -28,6 +32,10 @@ public class BattleMenuPage implements GameMenController {
     @Override
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setVbox(VBox vbox) {
+        this.vbox = vbox;
     }
 
     /**
@@ -61,8 +69,21 @@ public class BattleMenuPage implements GameMenController {
     @FXML
     void trainingCamp(ActionEvent event) {
         if (user.getDeck() != null && user.getDeck().size() == 8) {
-            Stage current = ((Stage) (((Button) event.getSource()).getScene().getWindow()));
-            GameMenu.startCampMatch(user, current);
+            FadeTransition fade = new FadeTransition(Duration.seconds(0.5));
+            fade.setFromValue(0);
+            fade.setToValue(1);
+            fade.setNode(vbox);
+            fade.play();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../GameMenu/TraningMatchPage.fxml"));
+                Parent fxml = loader.load();
+                GameMenController controller = loader.getController();
+                controller.setUser(user);
+                vbox.getChildren().removeAll();
+                vbox.getChildren().setAll(fxml);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         else{
             JOptionPane.showMessageDialog(null,"Please set your deck first");

@@ -28,14 +28,29 @@ public abstract class FightCard extends Card{
         super(cardPic, gamePic, name);
     }
 
+    /**
+     *
+     *
+     * @return hp of troop
+     */
     public int getHP() {
         return HP;
     }
 
+    /**
+     *
+     * @return the target range
+     */
     public String getTarget() {
         return Target;
     }
 
+    /**
+     * implements the action of card
+     *
+     * @param action its action class
+     * @param isRage the rage of card
+     */
     public void action (Action action,boolean isRage){
 
     }

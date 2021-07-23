@@ -8,6 +8,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -54,7 +55,14 @@ public class SignUpController {
                 if (file.exists()) {
                     try (Scanner in = new Scanner(new FileInputStream(file))) {
                         while (in.hasNextLine()) {
-                            User user = new User(in.nextLine(),in.nextLine(),in.nextLine());
+                            String userName = in.nextLine();
+                            String passWord = in.nextLine();
+                            String points = in.nextLine();
+                            ArrayList<String> deckStr = new ArrayList<>(8);
+                            for (int i = 0 ; i < 8;i++){
+                                deckStr.add(in.nextLine());
+                            }
+                            User user = new User(userName,passWord,points,User.genDeck(deckStr));
                             if (user.getUserName().equals(UserName.getText())) {
                                 clearAll();
                                 UserName.setText("This user name is already in use!");
@@ -68,14 +76,10 @@ public class SignUpController {
                     file.createNewFile();
                 }
                 if (!found) {
-                    try (PrintWriter out = new PrintWriter(new FileOutputStream(file,true))){
-                        User user = new User(UserName.getText(),Password.getText(),"0");
-                        out.println(user.getUserName());
-                        out.println(user.getPassword());
-                        out.println(user.getPoints());
-                        Stage current = ((Stage)(((Button)event.getSource()).getScene().getWindow()));
-                        Main.startGameMenu(user,current);
-                    }
+                    User user = new User(UserName.getText(),Password.getText(),"0",new ArrayList<>());
+                    User.print(user);
+                    Stage current = ((Stage)(((Button)event.getSource()).getScene().getWindow()));
+                    Main.startGameMenu(user,current);
                 }
             } else {
                 clearAll();

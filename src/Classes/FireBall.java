@@ -21,6 +21,9 @@ public class FireBall extends DamageSpell{
         Level = 1;
     }
 
+    /**
+     * upgrades fireball
+     */
     @Override
     public void Upgrade() {
         super.Upgrade();
@@ -38,9 +41,5 @@ public class FireBall extends DamageSpell{
                 AreaDamage = 474;
                 break;
         }
-    }
-
-    public void action (Action action){
-
     }
 }

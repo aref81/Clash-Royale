@@ -60,6 +60,10 @@ public class Rage extends Spell implements Runnable{
         }
     }
 
+    /**
+     * implements the action of card
+     *
+     */
     @Override
     public void run() {
         int rowStart = (int) Math.floor(row - Radius);
