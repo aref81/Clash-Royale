@@ -3,7 +3,7 @@
  ## Amirkabir University of Technology
   ### Clash Royal
    A minimal Clone of Clash Royal<br>
-   Desogned and Implemented as final project of Advanced Programming Course - Spring 2021<br>
+   Designed and Implemented as final project of Advanced Programming Course - Spring 2021<br>
    Teacher : Ehsan Edalat
 
 # Screen Shots : 
