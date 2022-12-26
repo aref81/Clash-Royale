@@ -62,3 +62,9 @@ Game provides two types of opponent AI in training camp.
 
 ### Troops AI
 each kind of troop in placed in the map, had a simple AI to do its task, hit enemy troops and move toward enemy towers
+
+
+# Screen Shots
+![MenuShot](./documentation/ScreenShots/Menu.png) <br>
+![DeckShot](./documentation/ScreenShots/Deck.png) <br>
+![GameShot](./documentation/ScreenShots/InGame.png) <br>
