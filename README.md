@@ -18,8 +18,8 @@ In Clash Royale, two (or four in two VS two) players should fight in an arena us
 
 Game had two kind of defensive towers:
 
-- King Tower ([more]())
-- Princess Tower ([more]()
+- King Tower
+- Princess Tower
 
 ## Cards
 
@@ -29,28 +29,28 @@ Game contains three kind of cards: Troops, Buildings, Spells
 
 list of Troops:
 
-- Barbarians ([more]())
-- Archers ([more]())
-- Baby Dragon ([more]())
-- Wizard ([more]())
-- Mini Peka ([more]())
-- Giant ([more]())
-- Valkyrie ([more]())
+- Barbarians
+- Archers
+- Baby Dragon
+- Wizard
+- Mini Peka
+- Giant
+- Valkyrie
 
 ### spells
 
 list of spells:
 
-- Rage ([more]())
-- Fire Ball ([more]())
-- Arrows ([more]())
+- Rage
+- Fire Ball
+- Arrows
 
 ### buildings
 
 list of buildings:
 
-- Cannon ([more]())
-- Inferno Tower([more]())
+- Cannon
+- Inferno Tower
 
 ## AI
 
@@ -65,6 +65,6 @@ each kind of troop in placed in the map, had a simple AI to do its task, hit ene
 
 
 # Screen Shots
-![MenuShot](./documentation/ScreenShots/Menu.png) <br>
+![MenuShot](./documentation/ScreenShots/Menu.png)
 ![DeckShot](./documentation/ScreenShots/Deck.png) <br>
 ![GameShot](./documentation/ScreenShots/InGame.png) <br>
